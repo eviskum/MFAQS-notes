@@ -1,0 +1,6 @@
+LIBRARY nextmngr INITINSTANCE
+
+EXPORTS
+    MainEntryPoint          @1
+    EMHandlerProc           @2
+

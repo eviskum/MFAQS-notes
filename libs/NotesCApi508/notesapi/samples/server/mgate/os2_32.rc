@@ -1,0 +1,12 @@
+/* Mail Gateway strings */
+
+CODEPAGE 850
+STRINGTABLE
+BEGIN
+
+#undef errortext
+#define errortext(code,text) code, text
+
+RCINCLUDE mgateerr.h
+
+END

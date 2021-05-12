@@ -1,0 +1,69 @@
+Lotus C API Toolkit for Domino and Notes Release 5.0.8 Update
+
+This is the Lotus C API Toolkit for Domino and Notes Release 5.0.8 Update.  
+It contains the C API header and library files needed to develop C API 
+applications for Domino and Notes Release 5.0.8
+
+This is provided so that you can develop C API applications for Domino or 
+Notes Release 5.0.8 and use the new R 5.0.8 C API features.
+
+Platform Information
+This software supports all Domino and Notes Release 5.0.8 certified 
+platforms.
+
+The header files in this update are DOS formatted text files.  You can 
+use this toolkit to develop UNIX applications by converting the files in 
+the include directory to UNIX format.
+
+New Release 5.0.8 features are listed below.
+
+New Features in Lotus C API for Domino and Notes 5.0.8
+------------------------------------------------------
+The new features in this release include:
+
+Ability to Sign Hotspots
+------------------------
+#include <nsfnote.h>
+
+STATUS LNPUBLIC NSFHotSpotSign(
+	BYTE *pSource,
+	DWORD  dwSourceLength,
+	BYTE *pObject,
+	DWORD  dwObjectLength,
+	HANDLE *hSigData,
+	DWORD *dwSigLength);
+    
+Description : This function allows you to sign a hotspot.    
+
+
+Parameters :
+    Input :
+        pSource        - 
+        dwSourceLength -
+        pObject        - 
+        dwObjectLength -
+        
+
+    Output :
+        (routine)  -  Return status from this call -- indicates either 
+                      success or what the error is. The return codes 
+                      include:
+                      NOERROR - The hotspot was successfully signed.
+                      ERR_xxx - STATUS returned from a lower level Notes 
+                      function.  This value can be passed to OSLoadString 
+                      to obtain a text string that can be presented in a 
+                      dialog box or log entry.
+
+
+Additional Character Set IDs
+----------------------------
+Additional character set IDs have been added to the NLS_CS_xxx symbol set 
+in nls.h.  The additional character set IDs are NLS_CS_IBMCP943 and 
+NLS_CS_IBMCP5039.
+
+OLE Functions
+In Release 5.0 through 5.0.7 of Domino and Notes, NSFNoteAttachOLE2Object, 
+NSFNoteDeleteOLE2Object, and NSFNoteExtractOLE2Object were supported on 
+Windows 32-bit platforms only.  As of Release 5.0.8, these functions are 
+supported on all Domino and Notes platforms.
+

@@ -1,0 +1,40 @@
+Successfully ran agent "Assign Support Rep"
+
+Output from memory (Lotus script agents only):
+
+Support Rep parameter = Sandy Block
+Updated documents =  1
+
+Output from Run Data:
+
+Time of the last run: 04/07/2000 05:26:52 PM
+Number of processed documents: 0
+Exit status code: 0
+
+Run log:
+
+Started running agent 'Assign Support Rep' on 04/07/2000 05:26:52 PM
+Running on new or modified documents: 9 total
+Found 9 document(s) that match search criteria
+Ran LotusScript code
+Done running agent 'Assign Support Rep' on 04/07/2000 05:26:52 PM
+
+
+Successfully ran agent "Decrease Priority"
+
+Output from Run Data:
+
+Time of the last run: 04/07/2000 05:26:52 PM
+Number of processed documents: 9
+Exit status code: 0
+
+Run log:
+
+Started running agent 'Decrease Priority' on 04/07/2000 05:26:52 PM
+Running on all documents in database: 9 total
+Found 9 document(s) that match search criteria
+9 document(s) were modified by formula
+Done running agent 'Decrease Priority' on 04/07/2000 05:26:52 PM
+
+
+Program execution completed.

@@ -1,0 +1,9 @@
+LIBRARY API_WRAP INITINSTANCE
+
+EXPORTS
+             Start_Notes             @1
+             Stop_Notes              @2
+             Open_Notes_Database     @3
+             Close_Notes_Database    @4
+             Get_Notes_Db_Title      @5
+             Get_Notes_Error_Message @6

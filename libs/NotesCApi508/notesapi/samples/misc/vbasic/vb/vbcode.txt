@@ -1,0 +1,96 @@
+'
+' Declare the DLL entry points for all the external functions.
+'
+Declare Function Start_Notes Lib "api_wrap.dll" () As Integer
+Declare Function Stop_Notes Lib "api_wrap.dll" () As Integer
+Declare Function Open_Notes_Database Lib "api_wrap.dll" (ByVal FileName As String) As Integer
+Declare Function Close_Notes_Database Lib "api_wrap.dll" () As Integer
+Declare Function Get_Notes_Db_Title Lib "api_wrap.dll" (ByVal Title As String) As Integer
+Declare Function Get_Notes_Error_Message Lib "api_wrap.dll" (ByVal Message As String) As Integer
+
+'
+' Sample Visual Basic Code
+'
+
+' Every API wrapper function returns either "success" or "failure"
+' with these return codes.
+
+    Const API_SUCCESS = 0
+    Const API_FAILURE = 1
+
+' These strings are modified by the API calls, so we must make them
+' as long as the API might possibly need.
+
+    Dim database_title As String * 256
+    Dim error_msg As String * 256
+
+' The API wrappers return their status into this variable.
+
+    Dim api_error As Integer
+
+
+' Initialize Notes. (This call is a wrapper for the NotesInit API call.)
+'
+' Note that on an error, we set the output dialog box to an error message.
+
+    api_error = Start_Notes()
+    If (api_error <> API_SUCCESS) Then
+        MsgBox "ERROR: Unable to initialize Notes"
+        Exit Sub
+    End If
+
+' Get the filename of the Notes database from the dialog box. The filename
+' must be relative to the Notes data directory, since that is how NSFDbOpen
+' works.
+
+    database_filename$ = LTrim$(RTrim$(InputBox("Enter the filename of a Notes database:", "Get Title", "names.nsf")))
+
+' Issue the wrapper call to open the database.
+'
+' Note that on an error, we issue a wrapper call to get the text of the
+' error message. The wrapper DLL always stores the last error code returned
+' by the API, for this purpose.
+
+    api_error = Open_Notes_Database(database_filename$)
+    If (api_error <> API_SUCCESS) Then
+        api_error = Get_Notes_Error_Message(error_msg)
+        MsgBox error_msg
+        api_error = Stop_Notes()
+        Exit Sub
+    End If
+
+' Get the title of the database.
+'
+' Note that we clean up completely before exiting on an error.
+
+    api_error = Get_Notes_Db_Title(database_title)
+    If (api_error <> API_SUCCESS) Then
+        api_error = Get_Notes_Error_Message(error_msg)
+        MsgBox error_msg
+        api_error = Close_Notes_Database()
+        api_error = Stop_Notes()
+        Exit Sub
+    End If
+
+' Set the output to the Notes database title that we found.
+    
+    MsgBox RTrim$(database_title)
+
+' Close the database.
+
+    api_error = Close_Notes_Database()
+    If (api_error <> API_SUCCESS) Then
+        MsgBox "ERROR: Unable to close the database."
+        api_error = Stop_Notes()
+        Exit Sub
+    End If
+    
+' Disconnect from Notes (wrapper for NotesTerm).
+
+    api_error = Stop_Notes()
+    If (api_error <> API_SUCCESS) Then
+        MsgBox "ERROR: Problem while stopping Notes"
+        Exit Sub
+    End If
+
+

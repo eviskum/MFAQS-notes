@@ -1,0 +1,16 @@
+Form=GETTITLE.FRM
+Module=GETTITLE1; GETTITLE.BAS
+ProjWinSize=81,447,225,96
+ProjWinShow=2
+IconForm="Form1"
+Title="Get Db Title"
+Name="Gettitle"
+HelpContextID="0"
+StartMode=0
+VersionCompatible32="0"
+MajorVer=1
+MinorVer=0
+RevisionVer=0
+AutoIncrementVer=0
+ServerSupportFiles=0
+VersionCompanyName="Lotus"

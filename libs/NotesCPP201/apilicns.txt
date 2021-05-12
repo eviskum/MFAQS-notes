@@ -1,0 +1,237 @@
+
+         Lotus C++ API Toolkit for Domino and Notes
+             Software Development Kit Agreement
+
+
+IF YOU DO NOT AGREE WITH THESE TERMS AND CONDITIONS, DO NOT
+INSTALL THE LOTUS C++ API TOOLKIT PRODUCT BY INSTALLING ANY OR
+ALL OR ALL OF THE LOTUS C++ API TOOLKIT PRODUCT FROM THE TOOLKIT
+CD MEDIA OR FROM ANY OTHER SOURCE (INCLUDING THE LOTUS WEB SITE).
+BY DOING SO,YOU ARE AGREEING TO BE BOUND BY THE TERMS OF THIS
+AGREEMENT.
+
+Lotus Development Corporation ("Lotus") grants you (an entity or
+a person) a non-exclusive right to install and use the Lotus C++-
+Language Application Programming Interface for Domino and Notes,
+consisting of software and documentation (collectively, the
+"Lotus C++ API Toolkit for Domino and Notes"), under the
+following conditions:
+
+
+DEFINITIONS
+
+An "Application" is a computer program or software product
+developed using the Lotus C++ API Toolkit for Domino and Notes.
+
+A "Notes Client Product" is a client version of any of the
+following Lotus Products: Lotus Notes, Lotus Notes Mail, and/or
+Lotus Notes Desktop. 
+
+A "User" is a person who, directly or indirectly, sends data to,
+receives data from, sends control commands to, or receives
+computing services from an Application.
+
+A "Lotus Communications Product" is a Notes Client Product or a
+Notes server.
+
+
+USE
+
+You may install and use the Lotus C++ API Toolkit for Domino and
+Notes on any number of computers solely for the purpose of
+developing Applications.  You may also install copies of the
+Lotus C++ API Toolkit for Domino and Notes on a home and/or
+laptop computer, provided that only assigned users within your
+organization may access such additional copies.  You may make one
+copy of the Lotus C++ API Toolkit for Domino and Notes for
+archival and back-up purposes, but may not use this copy in any
+other way.  You may install and use the Lotus C++ API Toolkit for
+Domino and Notes within your own organization only.
+
+
+RESTRICTIONS
+
+You may not:
+
+(1)  Use the Lotus C++ API Toolkit for Domino and Notes to
+develop an Application that, directly or indirectly, enables
+Users to access or share any Lotus Communications Product
+interactively, unless each such User is an authorized licensee of
+a Notes Client Product;
+
+(2)  Transfer, sell, license, loan, lease or otherwise distribute
+the Lotus C++ API Toolkit for Domino and Notes, or any component
+thereof, to any third party, except as described below; or
+
+(3)  Alter, merge, modify (except as permitted below), adapt,
+reverse engineer, disassemble, or decompile the Lotus C++ API
+Toolkit for Domino and Notes, or any portions thereof.
+
+The purpose of these provisions is to restrict Applications that
+are intended to: (a) mimic or substitute for the services
+provided by a Notes Client Product, or (b) assist any other
+computer program that is intended to mimic or substitute for the
+services of a Notes Client Product.
+
+Should you have any questions concerning these restrictions,
+please contact Lotus at the phone number or address referenced in
+the "Exceptions" section below.
+
+
+EXCEPTIONS TO THE RESTRICTIONS
+
+Lotus will consider exceptions to the restrictions stated above.
+If you are interested in obtaining such an exception, please
+call 800-782-7876 (in the US) or write to Lotus Development 
+Corporation, Business Partner Program, 55 Cambridge Parkway, 
+Cambridge, Massachusetts, 02142, Attention: API Toolkit License
+Exceptions.
+
+
+SAMPLE AND REDISTRIBUTABLE CODE
+
+You may modify the source code versions of the Sample Programs,
+if any, included with the Lotus C++ API Toolkit for Domino and
+Notes and redistribute such modified source code versions in
+compiled, object code form only.  You may also redistribute, as
+part of your Application(s), the Lotus C++ API Toolkit for Domino
+and Notes software designated as "Redistributable Code."  The
+Redistributable Code files, if any, are identified below.  If
+you are authorized to redistribute the Sample Code and/or
+Redistributable Code (collectively "REDISTRIBUTABLE COMPONENTS"),
+you must (a) distribute the REDISTRIBUTABLE COMPONENTS only in
+conjunction with and as a part of your Application(s); (b) not
+permit further redistribution of the REDISTRIBUTABLE Components
+by your Users; (c) not use Lotus' name, logo, or trademarks to
+market your Application(s); and (d) include a valid copyright
+notice on your Application(s).
+
+Redistributable Code:  
+
+You may redistribute a single Lotus C++ API Toolkit for Domino
+and Notes shared library file with each Application you develop
+that requires one.  The shared library files are located in
+platform-specific subdirectories of the C++ API Toolkit lib
+directory, and have one of the following filename extensions:
+.dll, .a, .so, or .sl.  Other files in the C++ API Toolkit lib
+subdirectories, including shared libraries that are not required
+by the Application, may not be redistributed.
+
+
+PRODUCT SUPPORT
+
+For information regarding product support for the Lotus C++ API
+Toolkit for Domino and Notes, please contact Lotus Customer
+Support.  In the US, call 800-997-0333, outside the US, see the
+Lotus Customer Support Web site at http://www.support.lotus.com
+for the number of the nearest Support Center.
+
+
+DISTRIBUTION OF APPLICATIONS
+
+Any distribution of your Application(s) must be under a written
+agreement (including shrink wrap agreements) that prohibits
+reverse engineering, decompilation or disassembly of the
+Application(s) and requires Users of the Application(s) to abide
+by the conditions stated in the Restrictions section above.
+
+If you distribute an application programming interface ("API")
+developed using this Lotus C++ API Toolkit for Domino and Notes,
+then you must distribute such API under a written agreement that
+requires the licensees of such API to abide by the restrictions
+stated in the Restrictions section above.
+
+
+TRANSFER OF THE LOTUS C++ API TOOLKIT FOR DOMINO AND NOTES
+
+You may permanently transfer the Lotus C++ API Toolkit for Domino
+and Notes, subject to the terms of this Agreement, to someone
+else, provided that you do not retain any copies of the Lotus C++
+API Toolkit for Domino and Notes and provided you deliver a hard
+copy of this Agreement to the recipient.
+
+
+PROTECTION OF PROPRIETARY RIGHTS
+
+You acknowledge that under this Agreement you obtain only the
+right to use the Lotus C++ API Toolkit for Domino and Notes and
+that no right, title or interest in or to any copyrights,
+trademarks or other proprietary rights relating to the Lotus C++
+API Toolkit for Domino and Notes is transferred or licensed from
+Lotus to you.  You expressly acknowledge that  all intellectual
+property rights in the Lotus C++ API Toolkit for Domino and Notes
+are owned by Lotus or its suppliers and are protected by United
+States and Canadian copyright laws, other applicable copyright
+laws, and international treaty provisions.  Lotus retains all
+rights not expressly granted in this Agreement.  You may not
+remove or alter any copyright notice, trademark or other
+proprietary rights notice placed by Lotus on or in the Lotus C++
+API Toolkit for Domino and Notes. You may not use any Lotus
+trademarks, names or logos except as provided in the Lotus
+Developer Guidelines (See General Section below).
+
+
+LIMITED WARRANTY
+
+The Lotus C++ API Toolkit for Domino and Notes, including the
+Development Files and Sample Programs, is provided wholly "AS IS"
+without warranty, representation, promise or guarantee of any
+kind, either express or implied, statutory or otherwise,
+including warranties as to quality, performance, merchantability,
+or fitness for a particular purpose, or any warranty against
+infringement.  Your use of the Development Files and Sample
+Programs in your Application(s) or otherwise is entirely at your
+own risk.  No Lotus dealer, distributor, agent or employee is
+authorized to make any modification or addition to this warranty.
+
+
+LIMITATION OF LIABILITY
+
+Because software is inherently complex and may not be completely
+free of errors, it is your responsibility to verify your work
+and to make backup copies, and Lotus will not be responsible for
+your failure to do so.  Lotus shall not incur liability for money
+damages for claims by the licensee in connection with the use or
+application of the Lotus C++ API Toolkit for Domino and Notes.
+In addition, in no event will Lotus be liable for indirect,
+special, incidental, tort or consequential damages arising out of
+this Agreement or out of the use of or inability to use Lotus
+products or services licensed hereunder, including, without
+limitation, damages or costs relating to the loss of profits,
+business, goodwill, data or computer programs, whether or not
+advised or aware of the possibility of such damages.  The
+foregoing limitations shall not apply to claims relating to death
+or personal injury which arise out of products deemed to be
+consumer goods under applicable law.  Some states or provinces do
+not allow the exclusion or limitation of implied warranties or
+limitation of liability for incidental or consequential damages,
+so the above exclusion or limitation may not apply to you.
+
+
+U.S. GOVERNMENT RESTRICTED RIGHTS
+
+The Lotus C++ API Toolkit for Domino and Notes are provided with
+RESTRICTED AND LIMITED RIGHTS.  Use, duplication, or disclosure
+by the Government is subject to restrictions as set forth in FAR
+52.227-14 (June 1987) Alternate III(g)(3) (June 1987), FAR
+52.227-19 (June 1987), or DFARS  52.227-7013 (c)(1)(ii) (June
+1988), as applicable.  Contractor/Manufacturer is Lotus
+Development Corporation, 55 Cambridge Pkwy., Cambridge, MA 
+02142.
+
+
+GENERAL
+
+The export of  Lotus products is governed by the U.S. Department
+of Commerce under the export administration regulations and by
+Canadian export regulations. The export of the North American
+Version of Lotus Notes is governed by the U.S. Department of
+State under the International Traffic in Arms Regulations.
+
+For questions concerning this Agreement or to obtain a copy of
+Lotus' Developer Guidelines, write to Lotus Development
+Corporation, attn: Lotus Business Partner Program, 55 Cambridge
+Parkway, Cambridge, Massachusetts, 02142.
+
+Printed in the U.S.A.
+

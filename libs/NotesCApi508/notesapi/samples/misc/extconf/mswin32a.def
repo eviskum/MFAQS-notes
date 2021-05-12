@@ -1,0 +1,5 @@
+LIBRARY aextconf INITINSTANCE
+
+EXPORTS
+    MainEntryPoint          @1
+

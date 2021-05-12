@@ -1,0 +1,6 @@
+<user>
+<password>
+binary
+put ../lib/as400/lncapi50.savf temp0423/lncapi50
+put ../lib/as400/rundomcmd.savf temp0423/rundomcmd
+quit

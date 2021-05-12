@@ -1,0 +1,460 @@
+Copyright (c) 2000 Lotus Development Corporation. All rights
+reserved.
+
+*******************************************************************
+
+      Lotus C++ API Release 2.1 for Domino and Notes 5.0
+
+                           Release Notes
+
+*******************************************************************
+
+This file describes changes in Release 2.1 of the Lotus Notes C++ 
+API Software Development Kit. This release of the Lotus Notes C++ 
+API Toolkit supports development of programs for Notes Releases 5.0
+and later.
+
+Note: For more information about the C++ API, visit the Lotus 
+Developer Network Technology and Toolkits Zone 
+(http://www.lotus.com/techzone). The C++ API page contains links to
+documentation, product information, and pages where you can
+download the product itself or related material such as sample
+programs.
+
+
+Contents:
+
+1. New features in this release
+2. Known issues
+3. Resolved issues
+
+
+-------------------------------
+1. NEW FEATURES IN THIS RELEASE
+-------------------------------
+
+This release of the C++ API includes a broad range of new 
+functionality. The sections below summarize the enhancements. 
+For full detail, see the relevant Reference Guide topics.
+
+* Linux support
+---------------
+
+This release of the C++ API toolkit supports the creation of programs
+for the Linux (Red Hat 6.0) platform. Note that Linux applications 
+work with Notes Release 5.02c and later.
+
+* Actions
+---------
+
+A new version of the LNActions constructor lets you pass an LNNote 
+that represents an actions note.
+
+Use LNDatabase::CreateSharedActions to create or copy a shared actions
+note.
+
+LNDatabase::GetSharedActions now outputs an LNNote, which you can pass
+to the new LNActions constructor.
+
+We have removed LNDatabase::SetSharedActions as unneeded. To modify 
+the actions in a database, call GetSharedActions, modify the actions 
+as needed, and save the database. To copy actions from one database to
+another, call CreateSharedActions and save the database. 
+
+* Agents
+--------
+
+The LNAgent GetHoursAndMinutes and SetHoursAndMinutes functions let 
+you check and control the interval between successive executions of an
+agent.
+
+* Applet resources
+------------------
+
+LNAppletResource::RemoveFiles now lets you remove all applet files by
+omitting the optional files argument.
+
+* Date/times
+------------
+
+We have enhanced the documentation of the LNDatetime AdjustTimeZone,
+IsDSTInEffect, and SetTimeZone functions.
+
+* Frames
+--------
+
+New LNFrame GetLink and SetLink functions, together with updated 
+values in LNFRAMECONTENTTYPE, provide control over view, document, and
+anchor links that supply frame content.
+
+LNFRAMESCROLLTYPE values more accurately match the level of scrolling
+control available through Domino Designer.
+
+LNFrameset::GetFrameCount and LNFrameset::operator let you determine 
+the number of frames in a frameset and access the frames in array 
+fashion.
+
+* Links
+-------
+
+New versions of the LNRichText and LNRTContainer CreateAnchorLink and
+CreateDocumentLink functions do not require you to have an 
+LNViewFolder to create a link.
+
+* Paragraph styles
+------------------
+
+We have enhanced the documentation of the LNParagraphStyle 
+GetCDPABDefinition, SetCDPABDefinitionFlags, and 
+SetCDPABDefinitionFlags functions.
+
+The new LNParagraph style IsLeftMarginPercent, IsRightMarginPercent,
+SetFirstLineMargin, SetLeftMarginPercent, and SetRightMarginPercent
+functions provide greater control over paragraph margins. Also check
+the descriptions of other margin- and indentation-related functions in
+the class for better detail.
+
+* Profile documents
+-------------------
+
+LNDatabase::GetProfileDocuments provides an array of all profile 
+documents (LNProfileDocumentArray) that belong to a specified owner.
+
+The new LNProfileDocument GetOwnerName, SetOwnerName, and 
+GetProfileName functions provide greater control over profile 
+documents.
+
+We have enhanced the documentation of the LNDatabase 
+DeleteCalendarProfileDocument, OpenCalendarProfileDocument, and 
+OpenProfileDocument functions.
+
+We have removed the version of LNProfileDocument::SetProfileField that
+used buffer data to set the value of a field.
+
+The LNCalendarProfileDocument GetXXXFreeTimes functions now properly 
+return an LNSTATUS and output an LNDatetimes pointer. The 
+corresponding SetXXXFreeTimes functions now properly take an 
+LNDatetimes argument.
+
+* Search options
+----------------
+
+We have enhanced the documentation of 
+LNSearchOptions::SetDesignFlagsPattern to describe how it should be 
+used in conjunction with LNSearchOptions::SetNoteType.
+
+* Sections
+----------
+
+The LNRichText and LNRTContainer CreateSection functions let you 
+convert a rich text selection to a section without a title.
+
+The LNSection GetShowInPreviewOnly and SetShowInPreviewOnly functions
+give greater control over section visibility.
+
+The LNSection GetTitleFontStyle and SetTitleFontStyle functions let 
+you control the appearance of section titles.
+
+The LNSection::SetExpandRule... functions now properly return an 
+LNSTATUS value.
+
+LNSection::SetIsExpanded now properly returns void.
+
+LNSection::GetTitleFormula now properly returns an LNFormula.
+
+We have removed the ambiguous LNSection constructors that took 
+LNString and LNFormula section title arguments. To specify the title 
+of a new section, call LNSection::SetTitleFormula or 
+LNSection::SetTitleText. You can also set the title of a section as 
+you create it when you use the LNRichText and LNRTContainer functions
+CreateStringSection and CreateFormulaSection to convert a rich text 
+selection to a section.
+
+* Session control
+-----------------
+
+LNNotesSession::IsInitialized lets you check whether a session has 
+been initialized with either Init or InitThread. 
+LNNotesSession::IsThreadInitialized lets you check whether a session 
+has been initialized with InitThread.
+
+The LNNotesSession GetThrowAllErrors and SetThrowAllErrors functions
+allow each thread in a multithreaded program to have its own 
+ThrowAllErrors state.
+
+The global LNGetSession function lets you get the session for the 
+current thread or process from anywhere in the program.
+
+* Shared fields
+---------------
+
+The following LNSharedField functions provide greater control:
+
+GetAllowDesignRefreshToModify
+GetInheritsFromTemplateName
+GetPropagateAllowDesignChange
+SetAllowDesignRefreshToModify
+SetInheritsFromTemplateName
+SetPropagateAllowDesignChange
+
+* Tables
+--------
+
+LNTable::GetTabLabel and LNTable::SetTabLabel have been renamed to 
+GetRowTabLabel and SetRowTabLabel to more accurately reflect their 
+function.
+
+LNTable::SetTransparent now takes an optional boolean input argument.
+
+LNTableCell::GetTransparent lets you check the transparency status of
+a cell.
+
+The LNTable GetIsColumnWidthFixed and SetIsColumnWidthFixed functions
+let you control whether table columns have fixed or automatically 
+adjusted widths. Also check the updated documentation for 
+GetAutomaticWidth and SetAutomaticWidth.
+
+We have removed the LNTable::GetRowDisplay function.
+
+The LNTableCell::GetXXXBorderWidth functions now return the correct 
+width, regardless of the version of Notes used to create the table.
+
+* New Universal ID control
+--------------------------
+
+The new LNUniversalID class represents a UNID and lets you easily 
+convert between a UNID and its string representation.
+
+* View/folders
+--------------
+
+The LNViewFolder LNViewFolder::GetPropagateAllowDesignChange and 
+SetPropagateAllowDesignChange provide missing design control.
+
+
+---------------
+2. KNOWN ISSUES
+---------------
+
+The following issues and problems affect C++ API classes,
+functions, and sample programs in this release. Some problem
+descriptions are followed by an internal tracking number.
+
+- This release of the C++ API toolkit does not support 16-bit 
+  Windows or Macintosh. Users of those platforms should use the 2.0
+  toolkit release instead.
+- Because of a limitation in the HP-UX (TM) compiler, HP-UX users 
+  cannot create and use global objects in C++ API programs.
+- HP_UX users may see warnings generated by toolkit header files. To 
+  avoid these warnings, add +W740,741,749 when compiling. Note that 
+  you will still see a warning like this for each source file:
+
+  Warning:        nn future errors were detected and suppressed. 
+  Either remove the '-w' option or add a '+p' option to detect and 
+  fix them before they become fatal errors in a future release.
+
+  You can avoid this message by suppressing all warnings (using -w), 
+  but that will hide all warnings in your code also.
+- At this time, the C++ API does not directly support the creation
+  of repeating calendar entries. If you need to do this, you can
+  use the C++ API to create each individual calendar entry, but you
+  will have to provide the additional logic associated with
+  determining the dates of each entry.
+- In the Notes UI File - Database - Access Control dialog box, some
+  actions (for example, "Create documents") may be grayed out for a
+  given entry, depending on its access level. If an action is
+  grayed out and you call the corresponding LNACLEntry::GetCan...
+  function (in this case, GetCanCreateDocuments) to test the
+  entry's ability to perform the action, the function may return
+  an incorrect boolean value.
+- LNRichText::AppendRenderedDocument(LNDocument &doc) and 
+  LNRichText::AppendRenderedDocument(LNDocument &doc, LNForm &form)
+  prepend an extra blank line in the rich text item before the
+  rendered document.
+- When you get a value that is stored internally in twips (for 
+  example, by calling LNTable::GetRowSpacing to get the spacing 
+  between table rows) it may differ slightly from the value you
+  specified (for example, by calling LNTable::SetRowSpacing).
+- Some C++ API functions attempt to locate your mail database (for 
+  example, LNNoteSession::CreateMailMessage and GetMailDatabase,
+  and LNDocument::Send and SendTo). These functions generate the
+  error LNERR_NO_MAIL_DATABASE ("Cannot locate mail database") if
+  they cannot find the database. If you receive this error, you
+  can do one of the following:
+
+    * If the program is running on a Notes client, make sure the 
+      personal name and address book (NAB) contains a location 
+      document that specifies the mail server and database name,
+      and make sure that location is the current one. The Location
+      entry in the notes.ini file specifies the current location.
+
+    * If the program is running on the server, make sure the
+      server's notes.ini file contains the entries MailServer and
+      MailFile, which specify the mail server and database name
+      respectively. If the C++ API doesn't find a location
+      document in the NAB, it looks in the notes.ini file for
+      these values (on both server and client machines). Although
+      you could add a location document to the server's NAB, you
+      might not wish to do this, because that document will
+      replicate to other servers.
+
+- LNRichText::AppendRenderedDocument does not always render keyword
+  fields properly. This is due to a problem in the C API
+  CompoundTextAddRenderedNote function, which has been reported but
+  not yet fixed.
+- If you insert too many large tables or too many LNCompositeData 
+  objects into a rich text item you may run out of memory.
+- LNStylizedText containers cannot hold more than 40KB of text. 
+  Attempting to store more than 40KB of text causes the new 
+  LNERR_TEXT_TOO_BIG error code to be returned. Also note that
+  Notes may not be able to open documents that contain stylized
+  text items with more than 20KB of text. If your application
+  stores more than 20KB of text (but less than 40KB), the new 
+  LNWARN_TEXT_TOO_BIG_FOR_NOTES warning is returned.
+
+  Remember that appending text to a rich text item may make it
+  larger than the maximum sizes given above. The safe way to
+  append text to a stylized text object is to call Append with the
+  optional parameter that converts embedded nulls in the appended
+  text to paragraph breaks, thereby adding the text as a series of
+  LNStylizedText objects:
+
+  LNRichText     rt;
+  LNString       text;
+  ...
+  rt.Append(text, TRUE);
+  ...
+
+- You cannot specify the LotusScript for an agent, button, form or 
+  view action, or action hotspot by passing an LNLotusScript object
+  that was constructed "from scratch" with a string or LNString
+  containing pure LotusScript code as you would enter it in Notes. 
+  This is because the code lacks special comments that are normally
+  inserted and parsed by Notes when you manually create
+  LotusScript.
+
+  To properly specify LotusScript code, you must get it from an
+  LNLotusScript object that represents LotusScript that was
+  manually created and saved in Notes. 
+
+  This does not prevent you from using strings containing 
+  LotusScript, but it does require some extra steps. For example,
+  if you had a library of scripts, you could add them to agents by
+  doing the following:
+
+  1. Manually or programmatically create a database that holds a 
+     series of LotusScript agents named after your scripts.
+  2. Manually copy and paste your scripts from text files into the 
+     new agents.
+  3. Save the new agents so that Notes can insert its special 
+     comments.
+  4. Write code that gets the LotusScript code from the agents you 
+     just created and adds it to agents in your target database.
+     For example:
+
+     LNDatabase agentDb, targetDb;
+     LNAgent agent, newAgent;
+     LNLotusScript script;
+
+     agentDb.GetAgent("Script1", &agent);
+     agent.Open();
+     agent.GetLotusScript(&script);
+
+     targetDb.CreateAgent("NewAgent", TRUE, &newAgent);
+     newAgent.SetLotusScript(script);
+     //set other properties
+     newAgent.Save();
+
+- LNNote::Detach and LNNAttachment::Detach do not work with file 
+  attachments that use Macintosh Binary II format.
+- If you use LNRichText::CreateOLEObject to embed an OLE object in a
+  note and then view the note in Notes, an OLE object icon is
+  displayed instead of the object itself (for example, a word
+  processor document). To insert the graphic representation
+  of an OLE object into rich text, use the method demonstrated in the
+  EMBEDOLE sample.
+- In some situations involving the assignment of roles to users, 
+  LNNotesSession::CreateDatabaseReplica fails, when replicating 
+  through the Notes user interface would succeed. We are currently
+  investigating this issue and hope to either post a workaround on
+  the Developer Central Web site or fix the problem in a future 
+  release.
+- Calling LNNote::GetItem on a field on a subform in a tabbed table
+  results in a "Note item not found" error. This is due to a
+  problem in the C API that has been reported but not yet fixed.
+  (DCO49ZJ64)
+- Table cell merge and split are not supported in this release of the
+  C++ API.  LNTableCell::SetCDTableCellColumnSpan sets the column span
+  for a cell in a table, but does not modify the margins or content of
+  the cell. (SBON4HXS2V)
+- You cannot use the default import library, xIW4W.DLL (where 'x' is a
+  platform-specific filename prefix), to import .RTF files with
+  LNRichText::Import. To avoid this problem, use the version of
+  LNRichText::Import that lets you specify an import library, passing
+  the RTF import library, xIRTF.DLL, as the library argument. For
+  example, on a Windows platform, use a call like
+  'rt.Import("graph.rtf", "c:\notes\NIRTF.DLL", &cursor);'.
+  (DSCR4ALTWK)
+- The LNSection class does not currently provide functions that let 
+  you check or control access to sections. However, sections that are
+  access-controlled are properly handled by all relevant C++ API 
+  functions. (SZAY4JLLV4)
+- You cannot directly copy a rich text item containing an embedded OLE
+  object in applications running on non-OLE platforms.  This problem is
+  scheduled to be fixed in an upcoming release of the toolkit. 
+  Meanwhile, to work around the problem, copy the entire LNNote, rather
+  than just the LNRichText item. (SCHN4JTUUC) 
+- In some situations, AIX or VisualAge C++ applications that save notes
+  containing date/time items may later return incorrect values for 
+  those date/times. If you suspect that this is happening, try calling
+  LNNote::RefreshObjectFromNoteHandle after saving each note that
+  contains a date/time value. This is an obscure problem that is
+  currently under investigation. We expect to resolve it for a future
+  release.
+
+
+------------------
+4. RESOLVED ISSUES
+------------------
+
+The following problems have been resolved in the current release of
+the C++ API. Most entries are followed by one or more internal
+tracking codes.
+
+- We have fixed a problem that caused a document link in an About 
+  This Database document to disappear. (WASH4BWNYV)
+- When you copy a rich text item that contains an embedded OLE object
+  from one document to another through a call to LNNote::CreateItem, 
+  (for example, "destDoc.CreateItem("richTextField", sourceRTItem, 
+  &destinationRTItem, LNITEMOPTION_DELETE_APPEND);"), the OLE object
+  is now copied properly. Attempts to invoke it in the destination 
+  document no longer fail with the error "Item not found." 
+  (JMAO4FXPT3)
+- LNTableCell::GetXXXBorderWidth now returns the correct value 
+  regardless of the release of Notes that was used to create the 
+  table. (ASIN3XVSUV)
+- Calling LNNote::GetAttachments on a subform no longer returns an 
+  incorrect number of attachments. If this problem recurs, please 
+  inform the C++ API development team. (DSCR4H8W3S)
+- Calling LNForm::SetActions after appending an action to an LNActions
+  array no longer causes a crash when you save the note. However, note
+  that if you obtained the LNActions by calling GetActions on the same
+  form, you don't need to call SetActions at all. Changes to the 
+  LNActions are immediately reflected in the form and will be 
+  preserved if you simply save the note. (SZAY4FHU24)
+- We have further refined the view caching feature that speeds view 
+  navigation. Previously, when calls to LNViewFolder::Find and 
+  LNVFNavigator::Find caused the cache to be filled, a default cache
+  size of 64K was used. We have changed that default so that the cache
+  now stores a maximum of 100 documents. Note that you can still 
+  change the default cache size by modifying a NOTES.INI variable 
+  called $LNCPPAPI_MAX_CACHE_ENTRIES. (DSCR4C5QU7)
+- We have corrected the description of LNDatabase::DeleteScriptLibrary
+  to document the LNSCRIPTLIBRARYTYPE argument required by the first 
+  version of the function. (PNEN4JGPVJ) 
+- The C++ API now properly retains time zone information when reading 
+  date/time fields, and correctly reads the time in accordance with
+  the current time zone. Previously, when 2.x C++ API applications
+  read date/time fields that contained only the time, and the time 
+  values had been entered through the Notes UI, the values were 
+  erroneously converted to Greenwich Mean Time. (SCHN44XRC6)

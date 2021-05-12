@@ -1,0 +1,209 @@
+(c) 1996-2000 Lotus Development Corporation.  All rights reserved.
+This software is subject to the Lotus Notes C++ API Software 
+Development Kit Agreement (in the apilicns.txt file in the 
+Notesapi\C++API2.1 directory of the CD-ROM toolkit, or, if downloaded 
+from the World Wide Web, in the toolkit root directory), Restricted
+Rights for U.S. government users, and applicable export regulations.
+
+*********************************************************************
+
+         Lotus C++ API Release 2.1 for Domino and Notes 5.0
+
+                 Platform-Specific Information and
+                   Installation Instructions for
+                 Windows NT, Windows 95/98, and OS/2
+
+*********************************************************************
+
+This is the Release 2.1 Build of the Lotus Notes C++ API
+(Application Program Interface) Software Development Kit. This 
+release of the Lotus Notes C++ API Toolkit supports development of 
+programs for Notes Releases 5.0 and later.
+
+
+Platform Information:
+--------------------
+
+The Lotus Notes C++ API Toolkit supports Microsoft Windows 95/98 and 
+Microsoft Windows NT using either:
+
+      * Microsoft 32-bit Visual C++ 6.0 
+      * IBM VisualAge C++ for Windows, Version 3.0
+        Borland C++ 5.0.2
+
+The Lotus Notes C++ API Toolkit supports IBM OS/2 Warp, using IBM 
+VisualAge for C++ 3.0.
+
+* Certified configuration. Other configurations listed are 
+supported but not certified. For information about certification
+and support, see "Supported platforms and compilers" in Chapter 1
+of the User's Guide.
+
+Other Platforms
+
+The Lotus Notes C++ API Toolkit also supports developing programs for
+a number of UNIX environments and OS/390. For information on these 
+configurations and installation information, please see the file 
+readme.unx in any UNIX version of the Lotus Notes C++ API Toolkit, 
+or readme.390 in the OS/390 version.
+
+
+Installation
+------------
+
+Installation of the Toolkit requires approximately 70 megabytes of 
+disk space.
+
+Both the Lotus Notes C++ API Toolkit and the Lotus Notes C API 
+Toolkit may be installed on the same system.  Please note that the 
+Notes C++ API Toolkit includes specific versions of some of the 
+components of the C API Toolkit.  Environment variables for include
+files and link libraries must be set specifically for either the C or
+C++ API Toolkit, as described in the Notes C++ API Release 2.1 Guide
+in the appropriate section of the "Installing the Toolkit and 
+Building Applications" chapter under the heading "About environment 
+settings," to ensure that the correct versions of the headers and 
+libraries are used.
+
+
+Web Installation Instructions
+
+This section explains how to install the Lotus Notes C++ API Toolkit 
+from the Lotus Developer Network Technology and Toolkits Zone 
+(http://www.lotus.com/techzone) to a PC running Windows NT, Windows
+95/98, or OS/2.
+
+1. Create the install directory for the C++ API, d:\notescpp, where 
+   d: is the drive on which you want to install the toolkit.
+ 
+2. Select the links on the Web page to download each file, and 
+   specify your install directory when prompted.
+ 
+3. To decompress the toolkit and documentation files, run the program
+   files in the install directory, for example, by executing the
+   following commands:
+
+   lncpp21
+   lncpp21_doc
+
+4. Use system commands to move or copy all sample Notes databases and
+   related files from the directory d:\notescpp\notedata to your 
+   Notes data directory. Your Notes data directory is the directory
+   where your personal Notes database files reside.
+
+   This step is optional, but recommended. Many Notes C++ API sample
+   programs use these sample Notes databases and assume that the 
+   database file resides in the local Notes data directory. If your 
+   Notes data directory is d:\notedata, then:
+        
+        cd  \notescpp\notedata
+        copy  *.*  d:\notedata
+
+5. Optional:  Use system commands to move or copy the C++ API
+   documentation database from the directory d:\notescpp\doc
+   to your Notes data directory.  The database title is Notes C++ API
+   Release 2.1 Guide (lncpp21.nsf).  
+
+        cd  \notescpp\doc
+        copy  lncpp21.nsf  \notedata
+
+6. Start the Notes workstation.  Add the icon for the Notes C++ API
+   documentation database to your Notes desktop.
+
+7. In Notes, open the Notes C++ API Release 2.1 Guide database and 
+   refer to the "C++ API User's Guide". It contains all further 
+   instructions.
+   
+   To develop 32-bit Notes C++ API programs that will run on 
+   your platform, read the appropriate section of Chapter 2, 
+   "Installing the Toolkit and Building Applications."
+
+   It is recommended that you also read the following chapters before 
+   attempting to build and run any sample Notes C++ API programs:
+
+         Release Notes
+         Chapter 1: Introduction
+         Chapter 3: Creating and Running C++ API Programs
+
+
+CD-ROM Installation Instructions
+
+This section explains how to install the Lotus Notes C++ API Toolkit
+from CD-ROM to a PC running Windows NT, Windows 95/98, or OS/2.
+
+1. Create a target directory on your hard drive in which to install
+   the Notes C++ API toolkit.  These instructions assume that this 
+   target directory is d:\notescpp. If you install to a different 
+   target directory, change these instructions accordingly.
+
+        d:
+        mkdir \notescpp
+
+2. Use the system xcopy command copy the contents of the toolkit 
+   subdirectory on the CD to the directory you created. For example, 
+   to install the C++ API 2.1 PC Toolkit to d:\notescpp, copy 
+   everything in the Notesapi\C++API2.1\Pc directory, including all
+   subdirectories, to d:\notescpp. If you need to install toolkits 
+   for more than one platform, do not install them in the same 
+   directory.
+
+   For example, if the CD-ROM drive is mapped to drive o:
+
+        d:
+        cd  \notescpp
+        xcopy  o:\Notesapi\C++API2.1\Pc\*.*   /s/v/e
+
+   NOTE: Do not use Windows file manager to copy files from the 
+   CD-ROM to the target directory on your hard drive. The files on
+   the CD-ROM have the read-only attribute set. Windows file manager
+   preserves this attribute in copied files. Make sure the toolkit 
+   files on your hard drive do not have this read-only attribute set.
+
+   If files you copied to your toolkit directory are compressed, 
+   decompress them by running the self-extracting programs, for
+   example, by executing the following commands:
+
+   lncpp21
+   lncpp21_doc
+
+3. Use system commands to move or copy all sample Notes databases and
+   related files from the \notescpp\notedata to your Notes data 
+   directory. Your Notes data directory is the directory where your 
+   personal Notes database files reside. 
+   
+   This step is optional, but recommended. Many Notes C++ API sample
+   programs use these sample Notes databases and assume that the 
+   database file resides in the local Notes data directory. If your
+   Notes data directory is d:\notedata, then:
+        
+        cd  \notescpp\notedata
+        copy  *.*  d:\notedata
+
+
+4. Optional:  Use OS/2 or DOS commands to move or copy the C++ API
+   documentation database from the directory \notescpp\doc
+   to your Notes data directory.  The database title is Notes C++ API 
+   Release 2.1 Guide (lncpp21.nsf). 
+
+        cd  \notescpp\doc
+        copy  lncpp21.nsf  \notedata
+
+5. Start the Notes workstation.  Add the icon for the Notes C++ API 
+   documentation database to your Notes desktop.
+
+6. In Notes, open the Notes C++ API Release 2.1 Guide database and 
+   refer to the User's Guide. It contains all further 
+   instructions. 
+   
+   To develop 32-bit Notes C++ API programs that will run on 
+   your platform, read the appropriate section of Chapter 2, 
+   "Installing the Toolkit and Building Applications."
+
+   It is recommended that you also read the following chapters before
+   attempting to build and run any sample Notes C++ API programs:
+
+         Release Notes
+         Chapter 1: Introduction
+         Chapter 3: Creating and Running C++ API Programs
+
+

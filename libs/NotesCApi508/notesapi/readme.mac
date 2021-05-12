@@ -1,0 +1,88 @@
+(c) 1996-2001 Lotus Development Corporation.  All rights reserved.
+This software is subject to the Lotus C API for Domino and Notes 
+Software Development Kit Agreement (in the apilicns.txt file in the 
+notesapi directory of this toolkit), Restricted Rights for U.S. 
+government users, and applicable export regulations.
+
+***************************************************************************
+
+              Lotus C API for Domino and Notes Release 5.0.7
+
+                       Platform-Specific Information 
+                       and Installation Instructions
+                               for Macintosh
+
+***************************************************************************
+
+This is the Lotus C API Toolkit for Domino and Notes Release 5.0.7
+
+Platform Information:
+--------------------
+
+Apple Macintosh PowerPC (PPC)
+
+The Lotus C API Toolkit for Domino and Notes Release 5.0.7 supports 
+development of C API programs for Lotus Notes Release 5.0.7 on the Apple
+Macintosh Power PC System 9.0 or higher using MetroWerks CodeWarrior Pro 2.
+
+Lotus C API Toolkit for Domino and Notes Release 5.0.7 supports developing 
+programs for IBM OS/2, Microsoft Windows (32-bit), and Digital Alpha NT.  
+For information on these configurations, see the file, readme.pc.
+
+Lotus C API Toolkit for Domino and Notes Release 5.0.7 supports developing 
+programs for a number of UNIX environments.  For information on UNIX 
+configurations and installation information, see the file, readme.unx.
+
+In order to develop S/390 and AS/400 C API applications for Domino,
+you need to install the Lotus C API Toolkit for Domino and Notes
+specific to each of these platforms.
+
+
+
+Installation Instructions
+-------------------------
+
+This section explains how to install the Lotus C API Toolkit for Domino and
+Notes Release 5.0.7 to a MacOS system.
+
+
+Installation
+------------
+
+1. From the Finder, drag the NotesAPI folder to the root of your boot hard 
+   disk. The boot hard disk is the one with your System Folder.  
+
+2. Copy the Domino databases from the :notesapi:notedata folder to the
+   Data folder on your hard disk under the Lotus Notes folder. 
+   Many C API sample programs use these sample Domino databases and 
+   assume that the database files reside in the local Notes data folder.
+   
+3. Move or copy the two API documentation databases from the folder,
+   :notesapi:doc, to your Data folder under the Lotus Notes folder.  
+   These two databases are (1) the Lotus C API 5.0.7 User Guide 
+   (api507ug.nsf) and (2) the Lotus C API 5.0.7 Reference (api507re.nsf).  
+
+4. Start the Notes application.  Add the icons for the Lotus C API 5.0.7 
+   User Guide and the Lotus C API 5.0.7 Reference to your Notes desktop.
+
+5. In Notes, open the Lotus C API 5.0.7 User Guide. It contains all
+   further instructions. 
+
+
+   Information on developing C API programs for the Macintosh may 
+   be found in the Lotus C API User Guide chapter "Building Macintosh
+   Applications".
+  
+   It is strongly recommended that you also read the following chapters 
+   before attempting to build and run any sample C API 5.0.7 programs:
+
+         0 - 3  Errors, Corrections, and Additions
+         1 - 1  Overview of the Lotus C API for Domino and Notes
+         1 - 16 New Features in Release 5.0.7
+         1 - 17 Changes to Release 5.0.7
+         1 - 18 Software Compatibility
+         2 - 3  Sample Programs
+         3 - 5  Building Macintosh Applications
+         4 - 1  Overview
+        12 - 1  Domino Canonical Format
+

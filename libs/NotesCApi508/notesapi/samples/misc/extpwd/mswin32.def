@@ -1,0 +1,11 @@
+;
+;		extpwd.def - Module definition file for extpwd for 32-bit Windows
+;
+
+	LIBRARY		nEXTPWD
+	DESCRIPTION	"Extension manager password dialog.  Copyright (C) 1996 Lotus Development Corp."
+
+
+	EXPORTS
+		MainEntryPoint		@1
+		LibMain				@2

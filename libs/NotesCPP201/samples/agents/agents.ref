@@ -1,0 +1,24 @@
+Successfully ran agent Assign Support Rep
+Support Rep parameter = Isabel Silton
+Updated documents =  0
+Summary:
+09/09/98 12:09:58 PM
+0
+0
+Log:
+Started running agent 'Assign Support Rep' on 09/09/98 12:09:58 PM
+Running on new or modified documents: 8 total
+Found 8 document(s) that match search criteria
+Ran LotusScript code
+Done running agent 'Assign Support Rep' on 09/09/98 12:09:58 PM
+Successfully ran agent Escalate Priority
+Summary:
+09/09/98 12:10:14 PM
+0
+0
+Log:
+Started running agent 'Escalate Priority' on 09/09/98 12:10:13 PM
+Running on all documents in database: 8 total
+Found 0 document(s) that match search criteria
+Done running agent 'Escalate Priority' on 09/09/98 12:10:14 PM
+Program execution completed.

@@ -1,0 +1,136 @@
+(c) 1996-2001 Lotus Development Corporation.  All rights reserved.
+This software is subject to the Lotus C API for Domino and Notes
+Software Development Kit Agreement (in the apilicns.txt file in the 
+notesapi directory of this toolkit), Restricted Rights for U.S. 
+government users, and applicable export regulations.
+
+***************************************************************************
+
+              Lotus C API for Domino and Notes Release 5.0.7
+
+                       Installation Instructions for
+                       AIX, Solaris, HP-UX, and Linux
+
+****************************************************************************
+
+This is the Lotus C API Toolkit for Domino and Notes Release 5.0.7.
+
+
+Platform Information:
+--------------------
+
+The Lotus C API Toolkit for Domino and Notes Release 5.0.7 supports 
+development of C API programs for for Lotus Domino Release 5.0.7 on
+multiple platforms, including Microsoft Windows (32-bit), IBM OS/2, 
+IBM AIX, Sun SPARC Solaris, Solaris Intel (Sun x86 Solaris), HP-UX, 
+Linux, and Macintosh.
+
+This document explains how to complete the installation of the Lotus  
+C API for Domino and Notes Release 5.0.7 to UNIX machines running the 
+following operating systems:
+
+
+IBM AIX
+
+The Lotus C API Toolkit for Domino and Notes Release 5.0.7 supports 
+developing programs for IBM AIX 4.3.1 using the IBM PortaPak 364 compiler 
+and tools.
+
+
+Solaris SPARC Edition
+
+The Lotus C API Toolkit for Domino and Notes Release 5.0.7 supports 
+developing programs for Solaris 8 SPARC Edition using the Sun WS 5.0 
+Compiler.
+
+Solaris Intel Edition
+
+The Lotus C API Toolkit for Domino and Notes Release 5.0.7 supports 
+developing programs for Solaris 8 Intel Edition using the 
+Sun WS 5.0 Compiler. 
+
+HP-UX
+
+The Lotus C API Toolkit for Domino and Notes Release 5.0.7 supports 
+developing programs for HP-UX 11.0 using the HP aC++ compiler.
+
+Linux
+
+The Lotus C API Toolkit for Domino and Notes Release 5.0.7 supports 
+developing programs for Linux, Red Hat 6.0 Intel x86 distribution using
+the Linux g++ compiler.
+
+
+The Lotus C API Toolkit for Domino and Notes Release 5.0.7 supports 
+developing programs for IBM OS/2, Microsoft Windows (32-bit), and 
+Digital Alpha NT.  For information on these configurations, see 
+the file, readme.pc.
+
+The Lotus Notes C API Toolkit Release 5.0.7 supports developing programs 
+for Apple Macintosh computers.  For information on Macintosh 
+configurations and installation information, see the file, readme.mac.
+
+In order to develop S/390 and AS/400 C API applications for Domino,
+you need to install the Lotus C API Toolkit for Domino and Notes
+specific to each of these platforms.
+
+        
+Installation
+------------
+
+API documentation and sample program makefiles assume the Lotus C API 
+Toolkit for Domino and Notes for UNIX reside in the directory 
+/opt/lotus/notesapi.
+
+If you install the Lotus C API Toolkit for Domino and Notes in a directory 
+other than /opt/lotus/notesapi, you must create a symbolic link, 
+/opt/lotus/notesapi, that points to the target directory where the toolkit 
+physically resides.
+
+This section explains how to complete the UNIX installation of the Lotus 
+C API Toolkit for Domino and Notes once it is downloaded and uncompressed.
+
+1. Make sure that you have ownership and permissions of all files in the 
+   notesapi directory so that you have read and write access.
+   If necessary, change the ownership and permissions as follows: 
+
+         #  cd  /opt/lotus/notesapi
+         #  chown  -R  <your-login-id>  .
+         #  chmod  -R  +w  .
+         #  exit
+         %
+
+2. Move or copy the two API documentation databases from the directory
+   notesapi/doc to the Domino server's data directory. These two databases 
+   are (1) the Lotus C API 5.0.7 User Guide (api507ug.nsf) and (2) the 
+   Lotus C API 5.0.7 Reference (api507re.nsf).  
+
+
+3. Move or copy all Domino databases, and other files used by sample 
+   C API programs, from the API notedata directory to the Domino 
+   server's data directory.  Although this step is optional, it is 
+   recommended because many C API sample programs assume their target
+   database resides in the data directory.
+
+
+4. In the Notes client, add the following databases to your bookmarks:
+
+           Lotus C API 5.0.7 User Guide     
+           Lotus C API 5.0.7 Reference
+
+5. In a Notes client, open the Lotus C API 5.0.7 User Guide. It contains 
+   all further instructions. Press Escape to close the help - about screen. 
+
+   It is recommended that you also read the following chapters before
+   attempting to build and run any sample C API 5.0.7 programs:
+
+         0 - 3  Errors, Corrections, and Additions
+         1 - 1  Overview of the Lotus C API for Domino and Notes
+         1 - 16 New Features in Release 5.0.7
+         1 - 17 Changes to Release 5.0.7
+         1 - 18 Software Compatibility
+         2 - 3  Sample Programs
+         3 - 3  Building UNIX Applications
+         4 - 1  Overview
+        12 - 1  Domino Canonical Format
+

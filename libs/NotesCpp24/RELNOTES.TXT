@@ -1,0 +1,326 @@
+Licensed Materials - Property of IBM
+C48JGNA
+C47XHNA
+C47XINA
+
+
+(c) Copyright IBM Corporation 1996, 2003
+All rights reserved.
+IBM, Lotus, Lotus Notes, Notes, and Domino are trademarks or registered
+trademarks of Lotus Development Corporation and/or IBM Corporation
+in the United States, or other countries, or both.
+
+
+*******************************************************************
+
+         IBM Lotus C++ API 2.4 for IBM Lotus Notes/Domino
+
+                        Release Notes
+
+*******************************************************************
+
+This file describes changes in Release 2.3a of the Lotus C++ 
+API Toolkit for Domino and Notes. This release of the Lotus C++ 
+API Toolkit supports development of programs for IBM Lotus Notes
+Releases 5.0.6 and later.
+
+Note: For more information about the C++ API, visit the Lotus 
+Developer Domain (http://www.lotus.com/ldd). The C++ API page contains
+links to documentation, product information, and pages where you can
+download the product itself or related material such as sample
+programs.
+
+
+Contents:
+
+1. New and changed features in this release
+2. Known issues
+3. Resolved issues
+
+
+-------------------------------------------
+1. NEW AND CHANGED FEATURES IN THIS RELEASE
+-------------------------------------------
+
+* Platform support change
+-------------------------
+
+- This release of the C++ API toolkit does not support the use of  
+  IBM VisualAge C++ for Windows. 
+
+* New LNTable functions
+-----------------------
+
+We have added the following functions to the LNTable class:
+
+- GetRightMargin
+- SetRightMargin
+- SetRightMarginPercent
+- SetLeftMarginPercent
+
+We have also changed LNTable::SetLeftMargin so that it behaves like 
+LNTable::SetRightMargin.
+
+
+---------------
+2. KNOWN ISSUES
+---------------
+
+The following issues and problems affect C++ API classes,
+functions, and sample programs in this release. Some problem
+descriptions are followed by an internal tracking number.
+
+- This release of the C++ API toolkit does not support the use of  
+  IBM VisualAge C++ for Windows. Users of that environment should use 
+  the 2.3 toolkit release instead.  
+- This release of the C++ API toolkit does not support HP-UX. Users of
+  that platform should use the 2.2 toolkit release instead.
+- This release of the C++ API toolkit does not support 16-bit Windows
+  or Macintosh. Users of those platforms should use the 2.0 toolkit
+  release instead.
+- At this time, the C++ API does not directly support the creation
+  of repeating calendar entries. If you need to do this, you can
+  use the C++ API to create each individual calendar entry, but you
+  will have to provide the additional logic associated with
+  determining the dates of each entry. (SJAN4MYKLS)
+- LNRichText::AppendRenderedDocument(LNDocument &doc) and 
+  LNRichText::AppendRenderedDocument(LNDocument &doc, LNForm &form)
+  prepend an extra blank line in the rich text item before the
+  rendered document. (SCHN3KULWA)
+- When you get a value that is stored internally in twips (for 
+  example, by calling LNTable::GetRowSpacing to get the spacing 
+  between table rows) it may differ slightly from the value you
+  specified (for example, by calling LNTable::SetRowSpacing).
+  (LASH357U32)
+- Some C++ API functions attempt to locate your mail database (for 
+  example, LNNoteSession::CreateMailMessage and GetMailDatabase,
+  and LNDocument::Send and SendTo). These functions generate the
+  error LNERR_NO_MAIL_DATABASE ("Cannot locate mail database") if
+  they cannot find the database. If you receive this error, you
+  can do one of the following:
+
+    * If the program is running on a Notes client, make sure the 
+      personal name and address book (NAB) contains a location 
+      document that specifies the mail server and database name,
+      and make sure that location is the current one. The Location
+      entry in the notes.ini file specifies the current location.
+
+    * If the program is running on the server, make sure the
+      server's notes.ini file contains the entries MailServer and
+      MailFile, which specify the mail server and database name
+      respectively. If the C++ API doesn't find a location
+      document in the NAB, it looks in the notes.ini file for
+      these values (on both server and client machines). Although
+      you could add a location document to the server's NAB, you
+      might not wish to do this, because that document will
+      replicate to other servers.
+
+- If you insert too many large tables or too many LNCompositeData 
+  objects into a rich text item you may run out of memory.
+- LNStylizedText containers cannot hold more than 40KB of text. 
+  Attempting to store more than 40KB of text causes the new 
+  LNERR_TEXT_TOO_BIG error code to be returned. Also note that
+  Notes may not be able to open documents that contain stylized
+  text items with more than 20KB of text. If your application
+  stores more than 20KB of text (but less than 40KB), the new 
+  LNWARN_TEXT_TOO_BIG_FOR_NOTES warning is returned.
+
+  Remember that appending text to a rich text item may make it
+  larger than the maximum sizes given above. The safe way to
+  append text to a stylized text object is to call Append with the
+  optional parameter that converts embedded nulls in the appended
+  text to paragraph breaks, thereby adding the text as a series of
+  LNStylizedText objects:
+
+  LNRichText     rt;
+  LNString       text;
+  ...
+  rt.Append(text, TRUE);
+  ...
+
+- You cannot specify the LotusScript for an agent, button, form or 
+  view action, or action hotspot by passing an LNLotusScript object
+  that was constructed "from scratch" with a string or LNString
+  containing pure LotusScript code as you would enter it in Notes. 
+  This is because the code lacks special comments that are normally
+  inserted and parsed by Notes when you manually create
+  LotusScript.
+
+  To properly specify LotusScript code, you must get it from an
+  LNLotusScript object that represents LotusScript that was
+  manually created and saved in Notes. 
+
+  This does not prevent you from using strings containing 
+  LotusScript, but it does require some extra steps. For example,
+  if you had a library of scripts, you could add them to agents by
+  doing the following:
+
+  1. Manually or programmatically create a database that holds a 
+     series of LotusScript agents named after your scripts.
+  2. Manually copy and paste your scripts from text files into the 
+     new agents.
+  3. Save the new agents so that Notes can insert its special 
+     comments.
+  4. Write code that gets the LotusScript code from the agents you 
+     just created and adds it to agents in your target database.
+     For example:
+
+     LNDatabase agentDb, targetDb;
+     LNAgent agent, newAgent;
+     LNLotusScript script;
+
+     agentDb.GetAgent("Script1", &agent);
+     agent.Open();
+     agent.GetLotusScript(&script);
+
+     targetDb.CreateAgent("NewAgent", TRUE, &newAgent);
+     newAgent.SetLotusScript(script);
+     //set other properties
+     newAgent.Save();
+
+- If you use LNRichText::CreateOLEObject to embed an OLE object in a
+  note and then view the note in Notes, an OLE object icon is
+  displayed instead of the object itself (for example, a word
+  processor document). To insert the graphic representation
+  of an OLE object into rich text, use the method demonstrated in the
+  EMBEDOLE sample.
+- In some situations involving the assignment of roles to users,
+  LNNotesSession::CreateDatabaseReplica may fail, when replicating
+  through the Notes user interface would succeed. If you encounter
+  this problem, please let us know. (PBIT44AP7S)
+- Calling LNNote::GetItem on a field on a subform in a tabbed table
+  results in a "Note item not found" error. This is due to a
+  problem in the C API that has been reported but not yet fixed.
+  (DCO49ZJ64)
+- You cannot directly copy a rich text item containing an embedded OLE
+  object in applications running on non-OLE platforms.  To work around
+  the problem, copy the entire LNNote, rather than just the LNRichText
+  item. (SCHN4JTUUC) 
+- Some LNCreateDatabaseOptions methods currently have no effect: 
+
+  * LNCreateDatabaseOptions::SetCopyACL does not let you specify
+    whether a database's ACL should be copied when you call the
+    LNNotesSession CreateDatabaseCopy, CreateDatabaseReplica or
+    CreateDatabaseFromTemplate functions to create a new database.
+  * LNCreateDatabaseOptions::SetPreserveNoteModifiedTime does not let
+    you specify whether LNNotesSession::CreateDatabaseCopy and
+    CreateDatabaseReplica preserve the original modification time for
+    each note when copying it to a new database.
+
+  We are investigating these problems and hope to fix them in a future
+  release. (DSCR453SH4)
+- This release of the C++ API does not support the full text search
+  features introduced in Notes 5.0, including domain search, returning
+  results as URLs, and 'chunking' large result sets. (SBON4GYSTG)
+- If you call LNTableCell::GetMergeBoundaries on a cell that was not
+  created by merging multiple cells, the function should return a
+  warning but may throw an exception instead. To avoid this problem,
+  call LNTableCell::IsCellMerged before calling
+  LNTableCell::GetMergeBoundaries. (SCHN53LJ4F)
+- If you use LNDatabase::CreateDocument to create an LNDocument
+  document in a mail database, using the "Memo" form, the message type
+  (unexposed in the C++ API) is not properly set. As one result,
+  failover routing may fail. To work around this problem, use
+  LNNotesSession::CreateMailMessage and LNMailMessage instead.
+  (SBON56NLW3)
+- The C++ API does not fully support font table information in action
+  bars. As a result, LNFontStyle::GetActionBarFontStyle only succeeds
+  when the action bar font style is one of the standard Notes fonts.
+  We hope to fix this problem in a future release. (SRUN555SXC)
+- Calling LNNote::GetSigner on a signed mail message may cause a
+  "Document has been modified or corrupted since signed" error.
+  (NSCZ4VMBED)
+- You cannot currently get or set the right margin of a rich text
+  table. (SZAY4MRS6U)
+- You may receive "corrupted object" error messages when reading very
+  large, complex documents. We hope to resolve this problem in the
+  next official release. (SBON5DAJXZ)
+- AIX users may receive the following error when running C++ API
+  applications with Domino 5.0.9 or later:
+
+    The process [API application name] is unable to map the required
+    amount of shared memory. Please refer to the documentation to
+    correct this.
+
+  If you see this error, run the the Domino "dataseg" utility,
+  located in the Domino executable directory. This utility examines
+  your API applications and makes shared memory recommendations or
+  changes shared memory allocations as you specify. Use the
+  following syntax:
+
+    dataseg -s [executable]
+
+  This command changes the shared memory to the amount used by
+  Domino. To check and change shared memory for all API applications,
+  use the following syntax:
+
+    dataseg -s *
+
+  You can also supply a list of applications to check and change.
+  This utility affects only the data segment, and only in 32-bit AIX
+  executables. For more information about the shared memory error
+  and the dataseg utility, see the Release Notes: Domino/Notes
+  database included in your Domino or Notes installation.
+- If you use Sun WorkSuite 5.0 on Sun Solaris 2.8 SPARC Edition to
+  create C++ API applications that run on Domino 6 and use the 
+  Domino 6 mail template, the following functions can cause an 
+  exception:
+
+  LNRichText::AddRenderedDocument
+  LNNotesSession::CreateMailMessage
+  LNNotesSession::CreateReplyMessage
+  LNDocument::CreateForwardMessage
+  LNDocument::CreateInvitationMessage
+  LNDocument::CreateReplyMessage
+
+  The solution for this problem is to preload the Solaris 
+  bridge library, libExbridge.so, provided in Solaris patch 
+  108434-10. Set the environment variable LD_PRELOAD to 
+  /usr/lib/libExbridge.so prior to running the application.
+
+  Documentation on the LD_PRELOAD setting and the library 
+  libExbridge.so may be found by searching on the Sun Web site
+  (http://www.sun.com). Patch 108434-10 may be found by searching
+  the Patch Portal on the Sun Sunsolve Web site 
+  (http://sunsolve.sun.com/). (SBON5K4Q5Z)
+- If you run C++ API applications with Domino R5, you may not be
+  able to use the default import library, xIW4W.DLL (where 'x' is
+  a platform-specific filename prefix), to import .RTF files with
+  LNRichText::Import. To avoid this problem, you can do either of
+  the following:
+
+  * Use the version of LNRichText::Import that lets you specify
+    an import library, passing the RTF import library, xIRTF.DLL,
+    as the library argument. For example, on a Windows platform,
+    use a call like:
+
+    'rt.Import("graph.rtf", "c:\notes\NIRTF.DLL", &cursor);'. 
+
+  * Modify the value assigned to EDITIMP2 in the notes.ini file
+    so that '_IRTF' precedes '_IW4W':
+
+    EDITIMP2=Microsoft RTF,0,_IRTF,_IW4W,.DOC,.RTF,,2,
+
+  (DSCR4ALTWK)  
+
+
+------------------
+2. RESOLVED ISSUES
+------------------
+
+The following customer-reported problems have been resolved:
+
+- The C++ API now properly preserves Hide When formulas when 
+  copying form contents. (SBON5KJKU5)
+- We have resolved a problem that caused the C++ API to reject new 
+  Domino 6 CD records during a call to LNRTContainer::CopyRTObject.
+  (SBON5MRRPK)
+- LNViewFolder::SetUnreadFontStyle and 
+  LNViewFolder::SetTotalsFontStyle now work as expected when used in 
+  an application that runs with Notes 6. (SBON5KZQ4Q)
+- This release of the C++ API toolkit works around a problem in 
+  Notes and Domino 6 that caused the expiration date passed to 
+  LNNotesSession::GetCertifier() to be ignored. (SBON5LGLAP)
+- The LNResource class now properly performs the necessary 
+  byte-swapping for links in rich text on UNIX systems. (SBON5MJMPG)
+

@@ -1,0 +1,1305 @@
+(c) 1999 Lotus Development Corporation.  All rights reserved.
+
+***********************************************************************
+
+                 Lotus C++ API Release 2.01 for Notes 4.5
+
+                             Release Notes
+
+***********************************************************************
+
+This file describes changes in the Release 2.01 maintenance build of 
+the Lotus Notes C++ API Software Development Kit. This release of the 
+Lotus Notes C++ API Toolkit supports development of programs for Notes 
+Releases 4.5 and later.
+
+Note: For more information about the C++ API, visit the Lotus Developer
+Central Web site (http://www.lotus-developer.com), click Products, and 
+select "C++ API for Lotus Notes and Domino." The C++ API page contains
+links to documentation, product information, and pages where you can
+download the product itself or related material such as sample programs
+and an inheritance/containment chart for the API.
+
+
+Contents:
+
+1. R5-related changes
+2. Other new features in this release
+3. Known issues
+4. Resolved issues
+5. Sample code for new rich text error recovery feature
+
+---------------------
+1. R5-related changes
+---------------------
+
+* Ability to use R5 and 4.6x features with the C API toolkit
+------------------------------------------------------------
+
+This release of the C++ API toolkit allows you to call functions in the 
+Lotus Notes C API Toolkit that access features specific to 4.6x and later
+versions of Domino and Notes, including R5.
+
+The C++ API Release 2.01 toolkit is built with and includes the C API
+4.51 headers and libraries, making it possible for C++ API applications
+to work with Notes and Domino releases 4.5 and later. This also allows 
+C++ API applications to use C API functions and data when needed, but 
+only if those functions and data are exposed in the C API 4.51 header 
+files. This means that C++ API applications cannot access C API features
+that were added for Notes/Domino releases 4.6 or 5.0.
+
+You can replace the C API headers and libraries in the C++ API 
+Release 2.01 toolkit with newer versions, to give your C++ API 
+applications access to C API features in Notes/Domino releases after 
+4.51. For example, if your C++ API application needs to use Notes/Domino
+R5 features, you can replace the C API headers and libraries in the C++
+API toolkit with those from the C API R5 toolkit.
+
+Before upgrading the C API headers and libraries, note the following:
+
+*  Some C++ API platforms require modified versions of the C API files, 
+   so you can't replace the C API files on those platforms. See the 
+   table below for details:
+   
+                                        Upgrade to C API?
+
+   Platform                    4.5x/4.6x files        R5 files
+   --------                    ---------------        --------
+   Borland C++ for Win32          no                    no
+   All other PC platforms         yes                   yes
+   UNIX (except HP-UX)            yes                   yes
+   HP-UX                          4.6x only             yes
+   Macintosh                      yes                   yes
+   OS/390, AS/400                 yes                   no
+
+
+*  The C API files you use will determine which versions of Notes/Domino 
+   will support your application. For example, if you use C API R5 
+   header files and libraries, your application will not work with 
+   Notes/Domino releases prior to R5.
+
+*  If your application already uses C API features, you might have to 
+   modify your code in order to use newer C API files.
+
+To upgrade the C API headers and libraries in the C++ API toolkit, 
+follow the instructions below. These instructions assume you've 
+installed the 2.01 C++ API toolkit in a directory named \notescpp, and 
+the C API toolkit in a directory named \notesapi.
+
+Upgrading to C API 4.5x or 4.6x files:
+--------------------------------------
+
+1. Save a copy of the C++ API version of global.h 
+   (\notescpp\include\global.h). You will need this file later.
+2. (Optional) Back up the existing C API headers and libraries in the 
+   C++ API toolkit in case you need to revert back to using them. Back 
+   up all files in the C++ API toolkit directory \notescpp\include. For 
+   PC platforms only, back up the file \notescpp\lib\xxx\notes.lib, 
+   where xxx is the name of the subdirectory for your platform (for 
+   example, mswin32).
+3. Copy all C API header files from the C API toolkit directory 
+   \notesapi\include to \notescpp\include.
+4. For PC platforms only, copy the C API library file from 
+   \notesapi\lib\xxx\notes.lib to \notescpp\lib\xxx, where xxx is the 
+   platform subdirectory.
+5. Copy the original version of global.h you saved in step 1 back to 
+   \notescpp\include.
+
+You should now be able to build your application according to the 
+instructions in the C++ API toolkit documentation.
+
+Upgrading to C API R5 files:
+----------------------------
+
+1. (Optional) Back up the existing C API headers and libraries in the 
+   C++ API toolkit in case you need to revert back to using them. Back
+   up all files in the C++ API toolkit directory \notescpp\include. For
+   PC platforms only, back up the file \notescpp\lib\xxx\notes.lib, 
+   where xxx is the name of the subdirectory for your platform (for 
+   example, mswin32).
+2. Copy all C API header files from the C API toolkit directory 
+   \notesapi\include to \notescpp\include.
+3. For PC platforms only, copy the C API library file from 
+   \notesapi\lib\xxx\notes.lib to \notescpp\lib\xxx, where xxx is the 
+   platform subdirectory.
+
+You should now be able to build your application according to the 
+instructions in the C++ API toolkit documentation, with one 
+modification: You must define the symbol LNDISABLE_HEADER_CHECK when 
+compiling your code. You can do this using one of several methods. For 
+example:
+
+- Change your application make file(s) to include -DLNDISABLE_HEADER_CHECK 
+  on the compiler command line.
+- Add the symbol LNDISABLE_HEADER_CHECK to the build settings in your 
+  integrated development environment. For example, in Microsoft Visual 
+  Studio, select the C/C++ panel of the Project Settings dialog and add
+  the symbol to the list of preprocessor definitions.
+- Add the statement #define LNDISABLE_HEADER_CHECK to your application 
+  header files, before they #include the C++ API toolkit header file 
+  lncppapi.h. You can also add the #define directly to lncppapi.h if 
+  you wish.
+
+Note: For information about other C API-related changes, see "C API
+interoperability enhancements" in Section 2, below.
+
+* New LNNOTETYPEs for R5 design notes
+-------------------------------------
+
+We have implemented new LNNOTETYPE values that let you access new R5
+design note types. For a list of the values and a discussion of how to
+work with them, see "New LNNOTETYPEs" in the next section.
+
+
+-------------------------------------
+2. OTHER NEW FEATURES IN THIS RELEASE
+-------------------------------------
+
+* New form design functions
+---------------------------
+
+Some form design properties were unsupported in the 2.0 release of the 
+toolkit. In Domino Designer, the properties are accessed through a 
+dialog box that appears when you select a form and either click the 
+properties icon, press ALT + ENTER, or choose Properties. 
+
+This release of the toolkit implements the following LNForm functions 
+to let you control those design properties:
+
+LNForm::GetAllowDesignRefreshToModify
+-------------------------------------
+Checks whether a design refresh or replace operation can modify or 
+delete this form. 
+
+Syntax:       LNBOOL GetAllowDesignRefreshToModify() const
+
+Arguments:    none
+
+Return value: LNBOOL - TRUE (the default value) if design 
+              replace/refresh can modify this form, FALSE if 
+              changes to this form are prevented.
+
+
+LNForm::GetHideFromBrowsers
+---------------------------
+Checks whether this form will be hidden from Web browsers. 
+This option is ignored by Notes versions prior to R4.6.
+
+Syntax:       LNBOOL GetHideFromBrowsers() const
+
+Arguments:    none
+
+Return value: LNBOOL - TRUE if this form is hidden from Web browsers, 
+              FALSE (the default value) otherwise.
+
+
+LNForm::GetHideFromClients
+--------------------------
+Checks whether this form will be hidden from Notes 4.6 and later
+clients.
+
+Syntax:       LNBOOL GetHideFromClients() const
+
+Arguments:    none
+
+Return value: LNBOOL - TRUE if this form is hidden from Notes 4.6 
+              and later clients, FALSE (the default value) otherwise.
+
+Usage:        To check whether this form will be hidden from Notes 4.x
+              clients prior to 4.6, call LNForm::GetHideFromR4Clients.
+
+
+LNForm::GetHideFromR4Clients
+----------------------------
+Checks whether this form will be hidden from Notes 4.x clients prior 
+to 4.6.
+
+Syntax:       LNBOOL GetHideFromR4Clients() const
+
+Arguments:    none
+
+Return value: LNBOOL - TRUE if this form is hidden from Notes 4.x 
+              clients prior to 4.6, FALSE (the default value)
+              otherwise. 
+
+Usage:        To check whether this form will be hidden from 
+              Notes 4.6 and later clients, call
+              LNForm::GetHideFromClients.
+
+
+LNForm::GetInheritsFromTemplateName
+-----------------------------------
+Returns the name of the design template on which this form is 
+based.
+
+Syntax:       LNString GetInheritsFromTemplateName() const
+
+Arguments:    none
+
+Return value: LNString - Object representing design template name, in 
+              the form "name.ntf".
+
+
+LNForm::SetAllowDesignRefreshToModify
+-------------------------------------
+Controls whether a design refresh or replace operation can modify 
+or delete this form.
+
+Syntax:    void SetAllowDesignRefreshToModify(LNBOOL flag)
+
+Arguments: flag - Input, boolean. Specify TRUE (the default value)
+           to allow design replace/refresh to modify this form,
+           FALSE to prevent changes. If this form's design is based
+           on a database design template, you should not change 
+           this setting to FALSE.
+
+
+LNForm::SetHideFromBrowsers
+---------------------------
+Controls whether this form will be hidden from Web browsers. This 
+option is ignored by Notes versions prior to R4.6.
+
+Syntax:    void SetHideFromBrowsers(LNBOOL flag)
+
+Arguments: flag - Input, boolean. Specify TRUE to hide this form from
+           Web browsers, FALSE (the default) otherwise.
+
+
+LNForm::SetHideFromClients
+--------------------------
+Controls whether this form will be hidden from Notes 4.6 and 
+later clients. This option is ignored by Notes versions prior to R4.6.
+Use LNForm::SetHideFromR4Clients to hide this form from 
+earlier Notes 4.x clients. 
+
+Syntax:    void SetHideFromClients(LNBOOL flag)
+
+Arguments: flag - Input, boolean. Specify TRUE to hide this form from
+           Notes 4.6 and later clients, FALSE (the default value)
+           otherwise.
+
+
+LNForm::SetHideFromR4Clients
+----------------------------
+Controls whether this form will be hidden from Notes 4.x clients 
+prior to 4.6.
+
+Syntax:    void SetHideFromR4Clients(LNBOOL flag)
+
+Arguments: flag - Input, boolean. Specify TRUE to hide this form from
+           Notes clients, FALSE (the default value) otherwise.
+
+Usage:     To specify whether this form will be hidden from Notes 4.6
+           and later clients, call LNForm::SetHideFromClients.
+
+
+LNForm::SetInheritsFromTemplateName
+-----------------------------------
+Specifies the name of the design template on which this form is based.
+
+Syntax:       LNSTATUS SetInheritsFromTemplateName(const LNString &name)
+
+Arguments:    name - Input, reference to object representing design
+              template name, in the form "name.ntf". 
+
+Return value: LNSTATUS - Zero (LNNOERROR) if successful, non-zero
+              otherwise.
+
+Usage:        If you specify a design template for this form, but 
+              design refresh/replacement is not allowed to modify
+              the form (LNForm::Get/SetAllowDesignRefreshToModify), the
+			  form will not inherit any changes from the template.
+
+* New LNNOTETYPEs
+-----------------
+
+The following LNNOTETYPE values have been added to let you work with
+more design note types:
+
+Version 4.x types:
+
+  LNNOTETYPE_PRIVATE_AGENT 			
+  LNNOTETYPE_SCRIPT_LIBRARY		
+  LNNOTETYPE_DATABASE_SCRIPT		
+  LNNOTETYPE_AGENT_DATA			
+  LNNOTETYPE_PRIVATE_AGENT_DATA	
+  LNNOTETYPE_QUERY_OBJECT
+  LNNOTETYPE_SUBFORM
+  LNNOTETYPE_PRIVATE_VIEW_FOLDER		
+  LNNOTETYPE_NAVIGATOR			
+  LNNOTETYPE_UNKNOWN
+
+R5 types:
+
+  LNNOTETYPE_OUTLINE
+  LNNOTETYPE_PAGE					
+  LNNOTETYPE_FRAMESET				
+  LNNOTETYPE_IMAGES				
+  LNNOTETYPE_APPLETS				
+  LNNOTETYPE_SHARED_ACTIONS
+
+With the exception of LNSubform, this release of the C++ API toolkit 
+does not provide classes derived from LNNote that let you represent 
+these types explicitly (for example, LNPage). However, you can use 
+LNNote to represent notes of these types, and process them either with 
+LNNote functions or with C API calls. You can use the LNNOTETYPE values 
+above with any function that takes an LNNOTETYPE argument, and 
+LNNote::GetNoteType returns the correct value for each note.
+
+The following code fragment shows how you might use GetNoteType to 
+process a series of notes:
+
+db.GetNotes(&notes)
+for(i = 0; i < notes.GetCount(); i++)
+{
+   LNNOTETYPE type;
+   LNNote note  = notes[ i ];
+   type = note.GetNoteType();
+
+   switch(type)
+   {
+      case LNNOTETYPE_ACL:
+         // do something
+         break;
+      ...
+	  case LNNOTETYPE_NAVIGATOR:
+         // do something
+         break;
+      default:
+         ...
+   }
+}
+
+If the current note is of a type is supported by the C++ API (for
+example, a subform), you can create an object:
+	
+...
+case LNNOTETYPE_SUBFORM:
+   LNSubform subform(note);
+...
+
+If the note is of a currently unsupported type, such as a page, you can
+still make use of the fact that it is definitely a page. You can also 
+call all LNNote functions on it, such as GetName.
+
+Some notes, such as pages, are specialized versions of generic notes (in
+this case, forms). In version 2.0 of the C++ API toolkit, calling a 
+function like LNDatabase::GetForms against an R5 database would retrieve
+all form notes, including page notes. In this release, a call to 
+GetForms against an R5 database returns form notes only, not pages or
+any other specialized note.
+
+Remember that you can use 
+LNDatabase::CreateNote(LNNOTETYPE notetype, LNNote *newnote) 
+to create only certain types of  notes. (However, you can use 
+LNDatabase::CreateNote(LNNote &note, LNNote *newnote) to create a copy
+of a note of any type in the same database or a different database.)
+
+We also changed LNDatabase::Search to accomodate new note types, 
+including new R5 note types. The following fragment shows how to get all
+page notes from an R5 database:
+
+LNSearchOptions options;
+
+options.SetNoteType(LNNOTETYPE_PAGE);
+db.Search("@All",&notes, &options); 
+
+* C API interoperability enhancements
+-------------------------------------
+
+For this release, several changes have been made to make it easier to
+use C API functions in a C++ API application:
+
+- LNDatabase::GetDatabaseHandle and LNNote::GetNoteHandle now accept an
+  optional "keep_object" boolean parameter that specifies whether the 
+  C++ object can be used after obtaining the C API handle. 
+  
+  Syntax:
+  DBHANDLE GetDatabaseHandle( LNBOOL keep_object = FALSE )
+  NOTEHANDLE GetNoteHandle( LNBOOL keep_object = FALSE )
+
+  If the keep_object parameter is omitted or FALSE (the default), the 
+  functions reset the C++ database or note object to an uninitialized 
+  state, so that they can no longer be used, and the caller is 
+  responsible for closing and updating those objects using C API 
+  functions. If keep_object is TRUE, the C++ database or note object 
+  remains active and can be used to access and modify the database or
+  note, in which case the C API must not be used to close or update 
+  the object.
+
+- The new functions LNNote::RefreshNoteHandleFromObject and 
+  LNNote::RefreshObjectFromNoteHandle allow you to keep a C++ note 
+  object (LNNote, LNDocument, and so on) synchronized with the C API 
+  in-memory note handle obtained using LNNote::GetNoteHandle. 
+
+  Syntax:
+  LNSTATUS RefreshNoteHandleFromObject() const
+  LNSTATUS RefreshObjectFromNoteHandle() const
+
+  RefreshNoteHandleFromObject ensures that any changes made to the note
+  via the C++ API are reflected in the in-memory copy of the note. It 
+  is not normally necessary to call RefreshNoteHandleFromObject, 
+  because LNNote::GetNoteHandle automatically calls this function. 
+ 
+  RefreshObjectFromNoteHandle ensures that any changes you made to note
+  items via the C API are reflected in the C++ note object. If you call
+  LNNote::GetNoteHandle with a TRUE parameter, which keeps the C++ note
+  object active, and then use the C API to change items in the note, you
+  must call LNNote::RefreshObjectFromNoteHandle (once) before calling 
+  any C++ API functions for the same note object.
+
+* New rich text error recovery feature
+--------------------------------------
+
+  We have added a feature that makes it possible to continue processing 
+  rich text after you encounter a problem such as bad CD graphic records
+  or truncated rich text. 
+
+  LNRTPARSERERRORHANDLER is a function prototype for a rich text parser 
+  error recovery function:
+  
+  typedef LNSTATUS (*LNRTPARSERERRORHANDLER)
+                   (const LNRTPARSERERRORDATA &data)
+
+  This function is called when the rich text parser encounters a problem,
+  and can be set to throw an error or continue processing. The input is a 
+  structure providing information about the initializing rich text, the 
+  CD records where the problem occurred, and the error status at that 
+  location.
+
+  Here is the LNRTPARSERERRORDATA structure definition:
+
+  struct LNRTPARSERERRORDATA
+  {
+    const LNItem *Item; // Rich text item, not fully initialized
+    LNINT Offset;       // From the beginning of the rich text, excluding
+                        // the initial type word
+    WORD  CDSig;        // The signature of the CD record at the given
+	                    // offset
+    LNINT CDSize;       // The size of the CD record at the given offset
+    LNSTATUS  Status;   // Error status found
+  };
+
+  
+  You can get and set the rich text parser function for a session with 
+  LNNotesSession::GetRTParserErrorHandler and SetRTParserErrorHandler:
+
+  LNRTPARSERERRORHANDLER GetRTParserErrorHandler() const
+  LNRTPARSERERRORHANDLER SetRTParserErrorHandler(LNRTPARSERERRORHANDLER fn)
+
+  If the function is not null, the parser calls it when an error 
+  condition is found. If the error handler function is null (the default 
+  case), the parser simply signals an error whenever a rich text parser 
+  error is found.
+
+  When you write the parser error handler function you control how the 
+  parser handles errors. By returning the LNRTPARSERERRORDATA structure 
+  field Status from the function, you stop the parser; the parser signals 
+  the error at that point. By returning LNNOERROR from the error handler, 
+  you force the parser to continue and try to open rich text objects that
+  would otherwise signal an error. In some cases the parser deletes the 
+  offending object, in other cases it fixes up inconsistencies. Since the
+  rich text is modified by this function, be careful about saving the 
+  note containing the rich text.  
+
+  The error handler is useful for finding out information about a 
+  problem area. The informational data provided by the 
+  LNRTPARSERERRORDATA structure indicates the point in the rich text 
+  structure where the error was detected. The actual problem may be with
+  earlier CD records, but the parser calls the error handler at the 
+  point at which it detects an inconsistency. Use tools like NotesPeek 
+  or the C API sample NSF_DUMP to examine the suspect CD records.
+
+  The error handler can call LNItem functions to find out about the 
+  item, database, and note, but cannot call LNRichText functions because
+  the rich text has not finished initializing. 
+
+  A variety of error conditions can be detected by the parser. Two common
+  errors are LNERR_RTPARSER_BAD_GRAPHIC and  LNERR_RT_ITEM_TRUNCATED. 
+  
+  - LNERR_RTPARSER_BAD_GRAPHIC indicates that a problem exists in the 
+    collection of CD records that make up the LNGraphic class. If you let 
+    the parser continue with this error, the parser tries to delete the 
+    graphic from the rich text and continue.
+
+  - LNERR_RT_ITEM_TRUNCATED indicates that the parser ran out of data 
+    without finding all the expected records. There may be missing table
+	cells, table end records, hotspot end records, and so on. If you let
+	the parser continue with this error, the rich text is truncated. For 
+	this case, the Offset field in the LNRTPARSERERRORDATA structure is 
+	set to the total size of the rich text, the CDSize field is set to 
+	zero, and the CDSig field is set to SIG_INVALID.
+
+  In some cases, the error handler function may be called more than once 
+  for the same error in the same rich text item. Because of this, you may
+  want to keep track of the previous state.
+
+  For a complete sample showing how to use the error handler, see Section
+  5, "Sample code for new rich text error recovery feature."
+
+
+---------------
+3. KNOWN ISSUES
+---------------
+
+The following issues and problems affect C++ API classes, functions, 
+and sample programs in this release:
+
+- Because of a limitation in the HP-UX (TM) compiler, HP-UX users 
+  cannot create and use global objects in C++ API programs.
+- The HP-UX version of the C++ API toolkit requires the ANSI C++ 
+  compiler on HP-UX 11.0. This compiler is incompatible with older 
+  releases, which means you can not use older versions of the HP-UX 
+  compiler to build C++ API applications with this release of the 
+  toolkit, nor can you run applications built using this release on 
+  HP-UX versions prior to 11.0. Note also that HP-UX applications 
+  built using this toolkit require Notes 4.62 or later, since earlier
+  Notes releases do not support HP-UX 11.0.
+- One of the development platforms supported by this toolkit is the 
+  Borland 5.01 release. Our Borland 32-bit DLL is built, tested, and
+  certified with this version of the Borland toolkit. However, there 
+  appears to be a problem when using the Borland 5.02 kit along with 
+  the Borland 32-bit DLL we provide, which causes calls to 
+  LNNotesSession::Init to crash. We are investigating this problem and 
+  plan to resolve it in a future release. 
+- The Solaris versions of the C++ API toolkit (both Sparc and Intel)
+  require Solaris 2.5x. You cannot build or run C++ API applications 
+  using Solaris 2.6. We are currently investigating this issue, and 
+  hope to fix it in a future release.
+- At this time, the C++ API does not directly support the creation of 
+  repeating calendar entries. If you need to do this, you can use the 
+  C++ API to create each individual calendar entry, but you will have 
+  to provide the additional logic associated with determining the dates
+  of each entry.
+- If you don't close a container object (LNViewFolder, LNDatabase, 
+  LNNote, LNDocument, or LNAgent) before it goes out of scope, it 
+  closes automatically at some point, but may not do so immediately. To
+  avoid memory leaks, particularly within loops, close resources as 
+  soon as you are finished with them. That way, you can be sure that 
+  memory associated with objects is freed immediately. 
+- In the Notes UI File - Database - Access Control dialog box, some 
+  actions (for example, "Create documents") may be grayed out for a 
+  given entry, depending on its access level. If an action is grayed 
+  out and you call the corresponding LNACLEntry::GetCan... function (in
+  this case, GetCanCreateDocuments) to test the entry's ability to 
+  perform the action, the function may return an incorrect boolean 
+  value.
+- LNRichText::AppendRenderedDocument( LNDocument &doc ) and 
+  LNRichText::AppendRenderedDocument( LNDocument &doc, LNForm &form ) 
+  prepend an extra blank line in the rich text item before the rendered 
+  document.
+- LNTable::SetColumnSpacing accepts values higher than the documented 
+  maximum table width of 20 inches. However, it does reject values of 
+  22 inches and above.
+- When you get a value that is stored internally in twips (for example,
+  by calling LNTable::GetRowSpacing to get the spacing between table 
+  columns) it may differ slightly from the value you specified (for 
+  example, by calling LNTable::SetRowSpacing).
+- If you use LNNotesSession::CreateDatabaseCopy or 
+  CreateDatabaseReplica to copy a database, but do not copy the access 
+  control list (ACL), the new database will have no ACL. If you later 
+  try to access the ACL in that database using LNDatabase::GetACL, the 
+  function will fail. Unless you use LNCreateDatabaseOptions::SetCopyACL
+  to specify otherwise, CreateDatabaseCopy and CreateDatabaseReplica 
+  will copy the ACL from the original database to the new one.
+- Some C++ API functions attempt to locate your mail database (for 
+  example, LNNoteSession::CreateMailMessage and GetMailDatabase, and 
+  LNDocument::Send and SendTo). These functions generate the error 
+  LNERR_NO_MAIL_DATABASE ("Cannot locate mail database") if they cannot 
+  find the database. If you receive this error, you can do one of the 
+  following:
+
+    * If the program is running on a Notes client, make sure the 
+	  personal name and address book (NAB) contains a location document 
+	  that specifies the mail server and database name, and make sure 
+	  that location is the current one. The Location entry in the 
+	  notes.ini file specifies the current location.
+
+    * If the program is running on the server, make sure the server's 
+	  notes.ini file contains the entries MailServer and MailFile, 
+	  which specify the mail server and database name respectively. If
+	  the C++ API doesn't find a location document in the NAB, it looks
+	  in the notes.ini file for these values (on both server and client
+	  machines). Although you could add a location document to the 
+	  server's NAB, you might not wish to do this, because that 
+	  document will replicate to other servers.
+
+- LNRichText::AppendRenderedDocument does not always render keyword 
+  fields properly. This is due to a problem in the C API 
+  CompoundTextAddRenderedNote function, which has been reported but not
+  yet fixed.
+- When attaching a file using LNNote::CreateAttachment or 
+  LNRichText::CreateAttachment, be sure to specify the complete 
+  pathname of the file to attach. Failing to do so may result in a 
+  "File does not exist" error.
+- When you use LNVFEntry::operator[] to get the value of a view or 
+  folder column, values based on formulas containing the @IsExpandable 
+  function will not be meaningful, because @IsExpandable requires 
+  information about collapsed view/folder entries that isn't available 
+  to API programs.
+- If you insert too many large tables or too many LNCompositeData 
+  objects into a rich text item you may run out of memory.
+- You should not use LNNote::CreateItem (or LNForm::CreateItem) to 
+  replace the rich text body ($Body) item of a new form with an existing
+  body item. The form body item depends on other items in the form note,
+  so replacing just the body item will produce an invalid form. If you 
+  are trying to create a new form based on an existing one, use 
+  LNDatabase::CreateForm to create a copy of the existing form and then 
+  modify the new copy as needed.
+- When opening a design note (view, folder, form, agent, and so on), do
+  not specify the LNNOTEOPENFLAGS_SUMMARY_ONLY or 
+  LNNOTEOPENFLAGS_ABTRACT flags. These flags will make some of the 
+  items in the note unavailable, which will prevent the design note 
+  from being properly initialized and may cause the Open function to 
+  fail.
+- When using the 32-bit Borland C++ 5.01 compiler to repeatedly 
+  allocate and delete a C++ API object in a loop, using the new and 
+  delete operators, the delete operator may generate an access 
+  violation error. For example:
+
+  for (int i = 0; i < count; i++)
+  { 
+     // allocate LNString in free store
+     LNString *dynamic_string = new LNString("Hello there!");
+     ...
+     delete dynamic_string; // this may generate an access violation 
+                            // after a few iterations
+  }
+
+  We have not yet identified the cause of this problem, but if it turns
+  out to be an issue with the C++ API, we will provide an update. This 
+  problem does not affect C++ API applications that allocate objects on
+  the stack, which is the recommended way of allocating C++ API 
+  objects.
+- If you encounter a 'file truncation' error when you call 
+  LNRichText::CreateOLEObject, check your Notes version. If you are 
+  using release 4.62, upgrade to release 4.63. If this fails to resolve
+  the problem, please let us know.
+- The toolkit includes a file called MQ.h (in the include directory). 
+  Microsoft Visual C++ 6.0 (MSVC++) includes a file with the same name.
+  If you build from the command line and do not specify the toolkit
+  include directory in your make file, you should place the C++ API
+  include path before the MSVC++ include path in your INCLUDE
+  environment variable to avoid a name conflict.
+- LNStylizedText containers cannot hold more than 40KB of text. 
+  Attempting to store more than 40KB of text causes the new 
+  LNERR_TEXT_TOO_BIG error code to be returned. Also note that Notes may
+  not be able to open documents that contain stylized text items with 
+  more than 20KB of text. If your application stores more than 20KB of
+  text (but less than 40KB), the new LNWARN_TEXT_TOO_BIG_FOR_NOTES 
+  warning is returned.
+
+  Remember that appending text to a rich text item may make it larger 
+  than the maximum sizes given above. The safe way to append text to a
+  stylized text object is to call Append with the optional parameter 
+  that converts embedded nulls in the appended text to paragraph breaks,
+  thereby adding the text as a series of LNStylizedText objects:
+
+  LNRichText     rt;
+  LNString       text;
+  ...
+  rt.Append(text, TRUE);
+  ...
+
+- You cannot specify the LotusScript for an agent, button, form or view
+  action, or action hotspot by passing an LNLotusScript object that was 
+  constructed "from scratch" with a string or LNString containing pure 
+  LotusScript code as you would enter it in Notes. This is because the 
+  code lacks special comments that are normally inserted and parsed by 
+  Notes when you manually create LotusScript. To properly specify 
+  LotusScript code, you must get it from an LNLotusScript object that 
+  represents LotusScript that was manually created and saved in Notes. 
+
+  This does not prevent you from using strings containing LotusScript,
+  but it does require some extra steps. For example, if you had a 
+  library of scripts, you could add them to agents by doing the 
+  following:
+
+  1. Manually or programmatically create a database that holds a series
+     of LotusScript agents named after your scripts.
+  2. Manually copy and paste your scripts from text files into the new 
+     agents.
+  3. Save the new agents so that Notes can insert its special comments.
+  4. Write code that gets the LotusScript code from the agents you just
+     created and adds it to agents in your target database. For example:
+
+	LNDatabase agentDb, targetDb;
+	LNAgent agent, newAgent;
+	LNLotusScript script;
+
+      agentDb.GetAgent("Script1", &agent);
+	agent.Open();
+	agent.GetLotusScript(&script);
+
+	targetDb.CreateAgent("NewAgent", TRUE, &newAgent);
+	newAgent.SetLotusScript(script);
+	//set other properties
+	newAgent.Save();
+
+- LNNote::Detach and LNNAttachment::Detach do not work with file 
+  attachments that use Macintosh Binary II format.
+- If you use LNNote::CreateOLEObject to embed an OLE object in a note
+  and then view the note in Notes, an OLE object icon is displayed 
+  instead of the object itself (for example, a word processor document).
+- In some situations involving the assignment of roles to users, 
+  LNNotesSession::CreateDatabaseReplica fails, when replicating through
+  the Notes user interface would succeed. We are currently investigating
+  this issue and hope to either post a workaround on the Developer
+  Central Web site or fix the problem in a future release.
+- When using the LNViewFolder::Find or LNVFNavigator::Find functions, if
+  you specify the optional LNVFNavigator parameter to obtain a 
+  collection of matching entries, the Goto functions (GotoNext, 
+  GotoFirst, etc.) of the returned LNVFNavigator object may incorrectly 
+  return the warning LNWARN_NOT_FOUND, or navigate to the wrong entry.
+  To avoid the problem, navigate the entries using 
+  LNVFNavigator::operator[] rather than the Goto functions. This problem
+  exists in C++ API Releases 2.0 and 2.01, and affects only those
+  LNVFNavigator objects returned by LNViewFolder::Find and
+  LNVFNavigator::Find. The problem will be fixed in the next C++ API
+  release.
+- If you create a font table (LNFontTable) and save it with LNNote::Save
+  in a program running against Notes R5, the call will fail with the 
+  error "Document has invalid structure". This problem will be fixed in 
+  the next C++ API release.
+- The value returned by LNRichText::GetValueSize does not match the 
+  amount of data available from LNRichText::Read. This is because 
+  GetValueSize includes the initial type words when calculating the size
+  of the rich text value block, while LNRichText::Read ignores them. This
+  problem will be fixed in the next C++ API release.
+- If you change a rich text item after saving it, and then call 
+  LNRichText::Read, your changes are not reflected in the read data. This
+  problem will be fixed in the next C++ API release.
+- In programs running against Notes R4.6x, LNVFColumn::GetFieldName 
+  returns an empty string. These Notes versions treat the column field
+  content as a simple formula, so you can get the field name by calling
+  LNVFColumn::GetFormula and then LNFormula::GetText. This problem will
+  be fixed in the next C++ API release.
+- Memory leaks have been reported in calls to LNDatabase::Get... 
+  functions that retrieve design notes, and in calls to 
+  LNRichText::Append. You can avoid these problems by calling
+  Session::Init and Session::Term periodically in your program to
+  clean up the Notes heap. The LNDatabase::Get... leaks will be fixed
+  in the next C++ API release, and we hope to resolve the 
+  LNRichText::Append problem also.
+- Starting with Release 2.0, the C++ API caches view and folder 
+  entries to improve navigation performance. When you request a view
+  or folder entry that isn't already in the cache, the C++ API fills
+  the cache with entries, so that subsequent requests can be
+  fulfilled without accessing the database. The performance
+  improvement is dramatic when navigating many entries in a large
+  view or folder  in a remote database. However, there are cases
+  where the cache may actually decrease navigation performance. This
+  can occur when your application accesses a small number of entries
+  in a large view or folder, because it can take longer to fill the
+  cache than to fetch those entries directly from the database. The
+  problem can affect any functions that navigate to or get an entry,
+  including LNViewFolder::Find and LNVFNavigator::Find.
+
+  If the caching feature causes a performance decrease in your
+  application, you can reduce the cache size or eliminate it
+  completely. By default, the cache will hold 64 KB of data, which is
+  the most Notes can return in a single request. The number of
+  entries that will fit in 64 KB depends on the number of view/folder
+  columns and their contents. The size of the cache can be controlled
+  by a Notes environment (notes.ini) variable called
+  $LNCPPAPI_MAX_CACHE_ENTRIES. If that variable is absent or has a
+  non-numeric value, the default cache size will be used. If the
+  variable has a numeric value, that value will be used as the maximum
+  number of cache entries (not the size of the cache in KB). For
+  example, setting $LNCPPAPI_MAX_CACHE_ENTRIES to 100 limits the cache
+  to 100 entries. Setting the value to 0 disables the cache.
+
+  Your application can use LNNotesSession::SetEnvironmentValue to
+  change the cache size before calling LNViewFolder::Open. The new
+  value takes effect for all subsequent LNViewFolder::Open calls, but
+  does not affect any views or folders that are already open. To reset
+  the cache to the default size, remove the environment variable by
+  using LNNotesSession::SetEnvironmentString to set it to a null
+  string. Note that reducing the cache size or disabling it will
+  decrease navigation performance for certain views, so don't change
+  the cache size except when necessary. 
+  
+
+------------------
+4. RESOLVED ISSUES
+------------------
+
+The following problems have been resolved in the current release of the 
+C++ API. Most entries are followed by one or more internal tracking 
+codes.
+
+- We have resolved a problem that resulted in LNNote::Open being unable 
+  to open certain agent notes. (SZAY45GN4D)
+- Setting the paragraph style in a table cell, when the cursor is at the
+  very end of the last cell in a table, no longer causes an exception to
+  be thrown. (SZAY462RES)
+- Actions added with LNForm:SetActions were failing to appear in the list
+  of actions available for the form and were corrupting the database. 
+  This problem has been resolved. (SZAY44LVY6)
+- LNButton::GetLabel and LNButton::GetFormula no longer throw exceptions
+  when no label or formula exists for the button. (ASIN459TEC)
+- A customer reported that LNDatabase::GetNotes and LNDatabase::Search
+  do not report deleted notes in a database. In fact, this is the 
+  correct behavior for this function. To get deleted notes, call 
+  LNDatabase::GetModifiedNotes instead, specifying either the date/time
+  of the earliest note to get or LNDATETIMESPECIAL_WILDCARD (to get all
+  modified notes, including deleted ones). (SZAY45WNV5)
+- Under certain circumstances, copying rich text items that contained 
+  document links created an incorrect $LINKS field in the target 
+  document, so that the links pointed to the wrong documents. This 
+  problem has been resolved. (SCHN45PJNJ)
+- We have fixed some problems related to copying OLE objects and rich 
+  text items that contain OLE objects. We have also resolved a number of
+  minor problems with OLE IStorage support. (SBON45VNZN)
+- We have fixed errors in the rich text parser that caused problems in 
+  working with OLE objects and Java applets and in calls to 
+  LNRichText::GetText. Some of these problems were caused by attempts to
+  access corrupted or prematurely truncated documents. If you encounter 
+  a "rich text parser stack overflow" error, check to see if there is a
+  problem in one of the documents you're accessing (for example, by 
+  trying to open it with the Notes editor). For more information about
+  handling rich text problems, see "New rich text error recovery 
+  feature" in Section 2, above. (PBOG45NLUB, ZON46QRSU, 
+  ASIN46MQ22, DSHD46WKZP)
+- When you copy a note containing Java class file attachments, the 
+  attachments are now properly copied along with the note. While 
+  resolving this problem, we also changed the way Java class files are
+  imported (via the LNRTJavaApplet functions ImportFile, ImportFiles, 
+  ReimportFile, and ReimportAllFiles) into a note. Previously, if you 
+  imported the same set of class files multiple times, to create more 
+  than on instance of the same applet in a single note, the C++ API 
+  stored multiple copies of the class files as attachments to the note.
+  Now, no matter how many times you import a set of class files into a 
+  note, the API stores only one copy of the files. If you import a class
+  file into a note, and a class file with the same name already exists, 
+  the file in the note will be replaced by the new one. (DLAA3ZXTDR)
+- When you create an invitation with LNCalendar::CreateInvitation, the
+  email that is sent to invitees is now a notice, allowing the 
+  recipients to accept or decline the invitation. (SJAN44PPFY)
+- You can now use LNNotesSession::CreateDatabaseCopy to copy a database
+  on a server, even if it contains a private note (such as a private 
+  view or folder) belonging to another user. (SZAY46STLP)
+- You can now properly open a view (LNViewFolder::Open) even if the 
+  database design is hidden. (SZAY44JKEL)
+- If you try to retrieve more than 64K of text from a rich text item or
+  selection, LNRichText::GetText now properly returns a warning 
+  (LNWARN_TOO_MUCH_TEXT) when the 64K limit is reached, and positions 
+  the cursor at the point in the rich text where the limit was reached.
+  
+  The following example shows how to use LNRichText::GetText when there 
+  may be more than 64K of text:
+
+  // ASSUMPTIONS:
+  // - rt1 is an initialized LNRichText object 
+  // - cursor1 and cursor2 are LNRTCursor objects
+  // - LNThrowAllErrors is TRUE
+
+  rt1.GetCursor(&cursor1);
+  rt1.GetEndCursor(&cursor2);
+  LNSTATUS status = LNWARN_TOO_MUCH_TEXT;
+
+  // Get all the text from the document's rich text.
+
+  while ( status == LNWARN_TOO_MUCH_TEXT )
+  {
+     cout << endl << "Dump of text follows:" << endl;
+     cout << "Hit return to continue: ";
+	 cin.getline(CommandBuf, 50);
+	 
+	 status = rt1.GetText(cursor1, cursor2, &text, &cursor1 );
+	 cout << text << endl;
+  }
+  (JMAO46QRDY and ZON46VUBT)
+
+- Previously, when a form and a copy of the form were opened and edited 
+  simultaneously, shared objects they contained (shared fields and 
+  subforms) might cause the error "Someone else modified this document 
+  at the same time" (ERR_CONFLICT) when you saved either copy of the 
+  form. This no longer occurs.
+- LNDocumentLink::GetLinkedDocument no longer throws an error when the
+  linked document or view no longer exists or the linked document is a
+  deletion stub. Instead, it returns LNWARN_NOTE_DELETED, so you should
+  check for this warning in your code. (ASIN46HNLQ)
+- We have fixed a problem that resulted in memory leaks when creating 
+  agents. (SZAY476MCG)
+- We have fixed a problem that caused crashes when calling
+  LNNote::HasLinks on a large document. (SJAN468S38)
+- When you call LNDatabase::SetDisableBackgroundAgents, the setting you
+  specify is now properly reflected in Domino Designer (in the "Disable
+  background agents for this database" checkbox on the Database Basics 
+  tab of the Database properties infobox). (SJAN464NM7)
+- We have updated all sample make files for the 32-bit Borland C++ 
+  compiler to support the Borland C++ 5.02 linker. This version of the
+  linker does not allow wildcard specifications for object files (for 
+  example, *.obj). The make files should now work with any Borland 5.x 
+  version. (SCHN47EUPK)
+- You can now properly call LNRichText::GetCursor on a paragraph that 
+  uses a named style and has an associated HideWhen formula. 
+  (WTRT43MEHY)
+- An error is now properly thrown if you attempt to create an LNTable 
+  by passing the constructor an LNStylizedText object. (SCHN47JSRV)
+- We have resolved a problem that caused a "Function parameter out of 
+  range" error when calling LNBitmapPatternTable::Read in a loop to 
+  process a bitmap pattern table. (WTRT468GD2)
+- You can now use LNDatabase::CreateSubform to create a subform with the
+  same name as a subform that already exists in the database. You can 
+  also call LNSubform::SetName or LNSubform::SetAlias to give a subform 
+  the same name or alias as the one for an existing subform. (However, 
+  you cannot insert two subforms with the same name or alias into the 
+  rich text of a form, or insert the same subform twice into a rich text 
+  item.) (ASIN47RS2H)
+- We have corrected the execution instructions built into the RTJAVA 
+  sample program. (SBON47SR3P)
+- Calling LNButton::GetLotusScript no longer results in an access 
+  violation. (DSHD47VQSZ)
+- LNFormula::SetText now properly handles formula strings containing 
+  multi-byte characters. (DSCR47LREG)
+- The prototype of LNKeywordsField::SetChoicesList has been changed from
+
+  LNSTATUS SetChoicesList(const LNText keywords)
+
+  to
+
+  LNSTATUS SetChoicesList(const LNText &keywords)
+
+  Note that this makes the actual prototype match the documentation.
+- We have resolved a problem that sometimes caused an error to be thrown
+  when manipulating a cursor in a rich text form body item. (ASIN47RS5N)
+- You can now create a copy of a view or folder 
+  (LNDatabase::CreateViewFolder) that has the same name as one that 
+  already exists in the database, or give a view/folder the same name as
+  an existing view/folder (LNViewFolder::SetName). Note that you cannot 
+  create a view/folder from scratch (LNDatabase::CreateView, 
+  LNDatabase::CreateFolder) that has the same name as an existing 
+  view/folder. However, you could create the new view/folder 
+  with a different name and then rename it. (SZAY47ZJ4Q)
+- We have corrected a problem that resulted in improper assignment of 
+  styles (via LNRichText::SetParagraphStyle) to rich text that ended 
+  with a blank paragraph. (SBON48FRDE)
+- The view caching feature added for release 2.0 to speed view 
+  navigation sometimes caused LNViewFolder::Find and LNVFNavigator::Find
+  to execute more slowly in large views, when the target entry was found
+  and the caller requested that the found entry be returned. This 
+  happened because the C++ API, if it failed to find the entry in the 
+  existing cache, fetched the entry and refilled the cache. Since the 
+  default cache size is 64K, the Find operation could take a long time.
+
+  We have modified this behavior so that the Find operation no longer
+  fills the cache if returning a single entry. Note that this
+  optimization is not used when Find returns a collection of all
+  matching entries via an LNVFNavigator parameter. See "Known issues"
+  for information on disabling the view cache. (DSCR48GHVU)
+- In Appendix B in the User's Guide, "Frequently Asked Questions (FAQ),"
+  we have modified the topic "How do I run an API program using a 
+  different Notes ID or notes.ini file?" to reflect the fact that you 
+  can initialize and terminate Notes sessions multiple times in a single
+  program.
+- In Appendix B in the User's Guide, "Frequently Asked Questions (FAQ),"
+  we have modified the topic whose title begins with "When I try to read
+  an item's value..." to reflect the fact that the first WORD returned 
+  by a call to LNItem::Read, when the item is a rich text item, is not 
+  the item type but the start of the item data.
+- We have modified the description of LNRTCursor::operator= to reflect 
+  the fact that it behaves like LNRTCursor::Copy.
+- We have corrected the prototype in the description of 
+  LNBitmapSegment::Read.
+- We have removed the description of the obsolete LNFIELDTYPE data type.
+- We have updated the descriptions of the LNDatabase functions 
+  GetFolders, GetViewFolders, and GetViews to correctly explain how 
+  they treat private views and folders.
+- We have updated the descriptions of the LNViewFolder functions 
+  GetSelectionFormula and SetSelectionFormula to accurately describe 
+  how null selection formulas and views with no selection formulas 
+  are treated. 
+- We have updated the LNDatetime class constructors topic, removing 
+  references to a non-existent version that took a FILETIME structure 
+  argument.
+- The documentation of the LNRTSubform class has been updated to reflect
+  the fact that if you cut an LNRTSubform from a form in one database
+  (for example, with LNRichText::GetRichText) and paste it to a form in
+  another database, the subform note is not copied to the second 
+  database as part of the operation.
+  
+
+-------------------------------------------------------
+5. Sample code for new rich text error recovery feature
+-------------------------------------------------------
+
+The following sample shows how to print out information about a
+problem encountered while processing rich text. It calls the 
+DumpOneCDRecord function from the C API sample nsf_dump (version 4.51).
+For a complete description of the error handler used in this sample, 
+see Section 2, "Other new features in this release."
+
+  //===================================================================
+  //
+  // Program: RTScan
+  //
+  // Description:
+  //  Processes rich text in each document in the specified database.
+  //
+  //  For each document that contains a rich text item named Body, the
+  //  program gets the item and calls GetCursor to force the rich text
+  //  code to initialize the item.
+  //
+  //  For any error that occurs, the error message is displayed along 
+  //  with the note ID of the current document, plus CD record 
+  //  information if available.
+  //
+  //  The main function returns the number of errors found.
+  //
+  // Syntax:
+  //  rtscan dbname [ server ]
+  //
+  //===================================================================
+
+  #include <lncppapi.h>
+  #include <iostream.h>
+
+  LNINT ErrorCount = 0;  // number of exceptions thrown by program
+
+  void ProcessError( LNSTATUS error );
+  void ProcessNote( const LNNote &doc );
+  LNSTATUS ProcessRichText( const LNRTPARSERERRORDATA &data );
+
+  // State when we last found an error
+  NOTEID   PrevID;
+  LNString PrevName;
+  DWORD    PrevOffset;
+  WORD    PrevCDSig;
+  DWORD    PrevCDSize;
+
+
+  // From C API sample nsf_dump
+  extern "C" {
+  #include "nsf_dump.h"
+  }
+
+  //-------------------------------------------------------------------
+
+  int main(int argc, char *argv[])
+  {
+     LNNotesSession session;
+
+     // Get parameters from command line.
+
+     if (argc < 2 || argc > 3)
+     {
+        cout << "\nUsage:\n\t rtscan2  dbname [ server ]" << endl;
+        return 1;
+     }
+
+     const char *dbname = argv[1];
+     const char *server = argc > 2 ? argv[2] : 0;
+
+     cout << "\nServer name:    " << (server ? server : "(Local)")
+          << "\nDatabase name:  " << dbname;
+
+     // Scan the specified database.
+
+     LNSetThrowAllErrors(TRUE);
+
+     try
+     {    
+        LNDatabase db;
+        LNDocumentArray docs;
+
+        session.Init(argc, argv);
+        session.GetDatabase(dbname, &db, server);
+
+        // Set the function to print out information when errors 
+        // are found initializing rich text.
+
+        LNRTPARSERERRORHANDLER fn = 
+           session.SetRTParserErrorHandler(&ProcessRichText);
+
+        // Open database and get documents.
+  
+        db.Open();
+        db.GetDocuments(&docs);
+        LNINT count = docs.GetCount();
+
+        cout << "\nDatabase title: " << db.GetTitle()
+             << "\nDocument count: " << count << endl;
+
+        // Remember last error
+
+        PrevID     = 0;
+        PrevName   = "";
+        PrevOffset = 0;
+        PrevCDSig  = 0;
+        PrevCDSize = 0;
+
+
+        // Process each document.
+
+        for (LNINT i = 0; i < count; i++)
+        {
+           LNDocument doc;
+           cerr << '.' << flush; // display progress indicator
+   
+           try
+           {
+              doc = docs[i];
+              doc.Open();
+
+              // Only process documents that contain a rich text item
+              // named Body and are not encrypted.
+
+              if (doc.GetItemType("Body") == LNITEMTYPE_RICHTEXT &&
+                  !doc.IsEncrypted())
+              {
+                 LNRichText rtitem;
+                 LNRTCursor cursor;
+     
+                 doc.GetItem("Body", &rtitem);
+                 rtitem.GetCursor(&cursor); // force initialization
+              }
+           }
+
+           catch (LNSTATUS error)
+           {
+              // An exception was thrown. Process the error and display 
+              // the note ID of the current document (in decimal and hex).
+              // If there's an item named Subject or Topic, display the 
+              // text of that item.
+
+              NOTEID id = doc.GetNoteID();
+
+              // Skip the note if we've already printed the information
+              // via the rich text parser callback function
+              if (id != PrevID)
+              {
+                 ProcessError(error);
+     
+                 ProcessNote(doc);
+              }
+           }
+
+           // Done with this document. Process the next one.
+
+           doc.Close();
+        }
+
+        // All documents scanned. Display the number of errors found.
+
+        db.Close();
+
+        if (count)
+           cout << "\n\nAll documents processed. Number of errors found: "
+                << ErrorCount << endl;
+     }
+
+     catch (LNSTATUS error)
+     {
+        ProcessError(error);
+     }
+
+     // Done. Terminate the session and return the number of errors found.
+
+     session.Term();
+     return ErrorCount;
+  }
+
+  //-------------------------------------------------------------------
+
+  void ProcessError( LNSTATUS error )
+  {
+     // Display the error message and increment the error count.
+
+     char msgbuf[LNERROR_MESSAGE_LENGTH];
+
+     LNGetErrorMessage(error, msgbuf);
+     cout << "\nERROR: " << msgbuf << endl;
+
+     ErrorCount++;
+  }
+
+  //-------------------------------------------------------------------
+
+  void ProcessNote( const LNNote &doc )
+  {
+     // Display information about the note and item
+
+     NOTEID id = doc.GetNoteID();
+     cout << "Note ID: "
+          << id << " (0x" << hex << id << ")" << dec << endl;
+
+     LNText textitem;
+
+     if (doc.GetItemType("Subject") == LNITEMTYPE_TEXT)
+        doc.GetItem("Subject", &textitem);
+     else if (doc.GetItemType("Topic") == LNITEMTYPE_TEXT)
+        doc.GetItem("Topic", &textitem);
+
+     if (!textitem.IsNull())
+     {
+        cout << textitem.GetName() << ": "
+             << LNString(textitem[0]) << endl;
+     }
+  }
+
+  //---------------------------------------------------------------------
+
+
+  LNSTATUS ProcessRichText( const LNRTPARSERERRORDATA &data )
+  {
+     STATUS error;
+
+     LNNote doc = data.Item->GetNote();
+     NOTEID id = doc.GetNoteID();
+
+     // If we've seen this problem before - go on without printing more
+	 // info
+
+     if ((id != PrevID) ||
+        (data.Item->GetName() != PrevName) ||
+        (data.Offset != PrevOffset) ||
+        (data.CDSig != PrevCDSig) ||
+        (data.CDSize != PrevCDSize))
+     {
+        PrevID     = id;
+        PrevName   = data.Item->GetName();
+        PrevOffset = data.Offset;
+        PrevCDSig  = data.CDSig;
+        PrevCDSize = data.CDSize;
+
+        ProcessError(data.Status);
+
+        // Print the note information
+        ProcessNote(doc);
+
+        // Display information about the rich text item but don't allow 
+		// the parser to continue.
+
+        if (data.CDSize)
+        {
+           char *buffer;
+   
+           buffer = new char[data.CDSize];
+
+           LNItem *rt = (LNItem *) data.Item; // Do this because Read 
+                                        	  // is a const method
+           rt->Read(data.Offset, data.CDSize, buffer);
+
+           // Call a function from the C API sample nsf_dump
+           // The sample version must match the C API header files. 
+
+           dwCDRecord = 0; // Initialize global
+           dumpfile = stdout;
+           error = DumpOneCDRecord(buffer, data.CDSig, data.CDSize, 0);
+	       fflush(stdout);
+           if (error)
+              cout << "Unable to process rich text CD record" << endl;
+
+           delete [] buffer;
+        }
+        else
+        {
+           cout << "Record size is 0 - bad record or end of rich text" 
+		        << endl;
+        }
+     }
+
+     return data.Status;
+  }

@@ -1,0 +1,111 @@
+Licensed Materials - Property of IBM
+C513MNA
+C513NNA
+C513PNA
+
+(c) Copyright IBM Corporation 1996, 2003
+All rights reserved.
+IBM, Lotus, Lotus Notes, Notes, and Domino are trademarks or registered
+trademarks of Lotus Development Corporation and/or IBM Corporation
+in the United States, or other countries, or both.
+
+
+*********************************************************************
+
+          IBM Lotus C++ API 2.4 for IBM Lotus Notes/Domino
+
+                 Platform-Specific Information and
+                   Installation Instructions for
+                          32-bit Windows
+
+*********************************************************************
+
+This is the Release 2.4 Build of the IBM Lotus C++ API
+(Application Program Interface) Software Development Kit. This 
+release of the Lotus C++ API Toolkit supports development of 
+programs for Notes Releases 5.0.6 and later.
+
+
+Platform Information:
+--------------------
+
+The Lotus C++ API Toolkit supports 32-bit Microsoft Windows using
+either Microsoft C++ 6.0. 
+
+Other Platforms
+
+The Lotus C++ API Toolkit also supports developing programs for
+a number of UNIX environments. For information on these configurations
+and installation information, please see the file readme.unx in any
+UNIX version of the Lotus C++ API Toolkit.
+
+
+Installation
+------------
+
+Installation of the Toolkit requires approximately 70 megabytes of 
+disk space.
+
+Both the Lotus C++ API Toolkit and the Lotus C API Toolkit may be
+installed on the same system.  Please note that the C++ API Toolkit
+includes specific versions of some of the components of the C API
+Toolkit.  Environment variables for include files and link libraries
+must be set specifically for either the C or C++ API Toolkit, as
+described in the Lotus C++ API Release 2.4 Guide in the appropriate
+section of the "Installing the Toolkit and Building Applications"
+chapter under the heading "About environment settings," to ensure
+that the correct versions of the headers and libraries are used.
+
+The Lotus C++ Toolkit for Domino and Notes is available from
+www.lotus.com/ldd.  Click Downloads and then click 
+Toolkits and Drivers.  There are separate links for the toolkit
+and documentation files. 
+
+Follow these steps:
+ 
+1. Select the links on the Web page to download each file, and 
+   specify where to save files when prompted.
+ 
+2. The toolkit and documentation files are self-extracting executables.
+   To decompress them, double-click on the filenames in Windows Explorer.
+
+3. Use system commands to move or copy all sample Notes databases and
+   related files from the directory \notescpp\notedata to your 
+   Notes data directory. Your Notes data directory is the directory
+   where your personal Notes database files reside.
+
+   This step is optional, but recommended. Many Lotus C++ API sample
+   programs use these sample Notes databases and assume that the 
+   database file resides in the local Notes data directory. If your 
+   Notes data directory is d:\notedata, then:
+        
+        cd  \notescpp\notedata
+        copy  *.*  d:\notedata
+
+4. Optional:  Use system commands to move or copy the C++ API
+   documentation database from the directory \notescpp\doc
+   to your Notes data directory.  The database title is Lotus C++ API
+   Release 2.4 Guide (lncpp24.nsf).  
+
+        cd  \notescpp\doc
+        copy  lncpp24.nsf  \notedata
+
+5. Start the Notes workstation.  Add the icon for the Lotus C++ API
+   documentation database to your Notes desktop.
+
+6. In Notes, open the Lotus C++ API Release 2.4 Guide database and 
+   refer to the "C++ API User's Guide". It contains all further 
+   instructions.
+   
+   To develop 32-bit C++ API programs that will run on 
+   your platform, read the appropriate section of Chapter 2, 
+   "Installing the Toolkit and Building Applications."
+
+   It is recommended that you also read the following chapters before 
+   attempting to build and run any sample C++ API programs:
+
+         Release Notes
+         Chapter 1: Introduction
+         Chapter 3: Creating and Running C++ API Programs
+
+

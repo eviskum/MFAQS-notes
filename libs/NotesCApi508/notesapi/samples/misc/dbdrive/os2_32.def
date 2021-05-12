@@ -1,0 +1,13 @@
+LIBRARY idbdbdrv INITINSTANCE TERMINSTANCE
+
+PROTMODE
+
+CODE    PRELOAD MOVEABLE
+DATA    PRELOAD FIXED SINGLE
+
+EXPORTS
+        MainEntryPoint     @1 ; (Main entry point)
+        DBDTerm            @2
+        DBDOpen            @3
+        DBDClose           @4
+        DBDPerformFunction @5

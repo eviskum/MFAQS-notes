@@ -1,0 +1,6 @@
+LIBRARY nextmail INITINSTANCE
+
+EXPORTS
+    MainEntryPoint          @1
+    EMHandlerProc           @2
+
